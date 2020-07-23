@@ -5,7 +5,9 @@
 #include "ffmpegStudy.h"
 #include "parseH264Dlg.h"
 #include "afxdialogex.h"
+#include "H264_stream.h"
 
+extern char outputstr[102400];
 
 // CparseH264Dlg dialog
 
@@ -19,6 +21,11 @@ CparseH264Dlg::CparseH264Dlg(CWnd* pParent /*=nullptr*/)
 
 CparseH264Dlg::~CparseH264Dlg()
 {
+    if (m_fpH264)
+    {
+        fclose(m_fpH264);
+        m_fpH264 = NULL;
+    }
 }
 
 void CparseH264Dlg::DoDataExchange(CDataExchange* pDX)
@@ -68,10 +75,14 @@ BOOL CparseH264Dlg::OnInitDialog()
 void CparseH264Dlg::OnClickedButtonParseh264()
 {
     // TODO: Add your control notification handler code here
-    m_fpH264 = NULL;
     m_naluNum = 0;
     m_list.DeleteAllItems();
     m_edit.Clear();
+    if (m_fpH264)
+    {
+        fclose(m_fpH264);
+        m_fpH264 = NULL;
+    }
 
     CString fileName;
     BOOL getNaluSuccess = TRUE;
@@ -239,11 +250,26 @@ void CparseH264Dlg::OnItemchangedList(NMHDR *pNMHDR, LRESULT *pResult)
 {
     LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
     // TODO: Add your control notification handler code here
-    int indSelected = 0;
-    CString strNaluInfo;
 
-    indSelected = m_list.GetNextItem(-1, LVIS_SELECTED);
-    strNaluInfo.Format(_T("%d"), indSelected);
+    int selectedIndex = 0, naluFileOffset = 0, naluStartCodeLen = 0, naluDataLen = 0;
+    static unsigned char naluData[MAXDATALEN] = { 0 };
+    h264_stream_t* h = NULL;
+
+    memset(outputstr, 0, sizeof(outputstr));
+    selectedIndex = m_list.GetNextItem(-1, LVIS_SELECTED);
+    naluFileOffset = m_lenInfo[selectedIndex].fileOffset;
+    naluStartCodeLen = m_lenInfo[selectedIndex].startCodeLen;
+    naluDataLen = m_lenInfo[selectedIndex].dataLen;
+
+    fseek(m_fpH264, naluFileOffset + naluStartCodeLen, SEEK_SET); // read NALU data without startCode
+    fread(naluData, naluDataLen, 1, m_fpH264);
+
+    h = h264_new();
+    read_nal_unit(h, naluData, naluDataLen); // parse NALU IE based on nalType
+    debug_nal(h, h->nal);
+    h264_free(h);
+
+    CString strNaluInfo = CString(outputstr);
     m_edit.SetWindowTextW(strNaluInfo);
 
     *pResult = 0;

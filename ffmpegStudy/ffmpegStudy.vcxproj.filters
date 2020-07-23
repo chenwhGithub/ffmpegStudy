@@ -36,6 +36,12 @@
     <ClInclude Include="parseH264Dlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="bs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="H264_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ffmpegStudy.cpp">
@@ -48,6 +54,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="parseH264Dlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="H264_stream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -187,6 +187,8 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="bs.h" />
+    <ClInclude Include="H264_stream.h" />
     <ClInclude Include="parseH264Dlg.h" />
     <ClInclude Include="ffmpegStudy.h" />
     <ClInclude Include="ffmpegStudyDlg.h" />
@@ -196,6 +198,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="H264_stream.cpp" />
     <ClCompile Include="parseH264Dlg.cpp" />
     <ClCompile Include="ffmpegStudy.cpp" />
     <ClCompile Include="ffmpegStudyDlg.cpp" />
