@@ -7,7 +7,7 @@
 #include "ffmpegStudy.h"
 #include "ffmpegStudyDlg.h"
 #include "afxdialogex.h"
-#include "parseH264Dlg.h"
+#include "parseH264Dlg/parseH264Dlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

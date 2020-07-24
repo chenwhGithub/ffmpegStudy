@@ -88,7 +88,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
@@ -187,21 +187,21 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="bs.h" />
-    <ClInclude Include="H264_stream.h" />
-    <ClInclude Include="parseH264Dlg.h" />
+    <ClInclude Include="libs\bitstream\bs.h" />
+    <ClInclude Include="libs\h264stream\H264_stream.h" />
     <ClInclude Include="ffmpegStudy.h" />
     <ClInclude Include="ffmpegStudyDlg.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="parseH264Dlg\parseH264Dlg.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="H264_stream.cpp" />
-    <ClCompile Include="parseH264Dlg.cpp" />
+    <ClCompile Include="libs\h264stream\H264_stream.cpp" />
     <ClCompile Include="ffmpegStudy.cpp" />
     <ClCompile Include="ffmpegStudyDlg.cpp" />
+    <ClCompile Include="parseH264Dlg\parseH264Dlg.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

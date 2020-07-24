@@ -1,11 +1,11 @@
 // CparseH264Dlg.cpp : implementation file
 //
 
-#include "pch.h"
-#include "ffmpegStudy.h"
+#include "../pch.h"
+#include "../ffmpegStudy.h"
 #include "parseH264Dlg.h"
 #include "afxdialogex.h"
-#include "H264_stream.h"
+#include "../libs/h264stream/H264_stream.h"
 
 extern char outputstr[102400];
 

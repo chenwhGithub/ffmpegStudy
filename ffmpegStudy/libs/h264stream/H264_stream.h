@@ -27,7 +27,8 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "bs.h"
+#include "../bitstream/bs.h"
+#include "H264_stream.h"
 
 #ifdef __cplusplus
 extern "C" {

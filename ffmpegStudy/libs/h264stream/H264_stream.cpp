@@ -19,12 +19,10 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#include "pch.h"
+#include "../../pch.h"
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
-
-#include "bs.h"
 #include "H264_stream.h"
 
 char outputstr[102400];
@@ -2502,4 +2500,3 @@ void debug_bytes(uint8_t* buf, int len)
     }
     printf("\n");
 }
-

@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{9682d92d-d00d-44e0-b052-7245fdd3dbf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\bitstream">
+      <UniqueIdentifier>{4420d4f0-e875-4880-855a-4cb77f95ee06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\h264stream">
+      <UniqueIdentifier>{8dfb33b2-9072-4d11-ad87-8f1f2f134c02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="parseH264Dlg">
+      <UniqueIdentifier>{42852e00-fe1e-40f4-b74a-295a29692335}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ffmpegStudy.h">
@@ -33,14 +45,14 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="parseH264Dlg.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="libs\bitstream\bs.h">
+      <Filter>libs\bitstream</Filter>
     </ClInclude>
-    <ClInclude Include="bs.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="libs\h264stream\H264_stream.h">
+      <Filter>libs\h264stream</Filter>
     </ClInclude>
-    <ClInclude Include="H264_stream.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="parseH264Dlg\parseH264Dlg.h">
+      <Filter>parseH264Dlg</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -53,11 +65,11 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="parseH264Dlg.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="libs\h264stream\H264_stream.cpp">
+      <Filter>libs\h264stream</Filter>
     </ClCompile>
-    <ClCompile Include="H264_stream.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="parseH264Dlg\parseH264Dlg.cpp">
+      <Filter>parseH264Dlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
