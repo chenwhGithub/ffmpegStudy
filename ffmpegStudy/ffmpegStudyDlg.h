@@ -32,4 +32,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
     afx_msg void OnClickedButtonParseh264();
+    afx_msg void OnClickedButtonParseaac();
 };

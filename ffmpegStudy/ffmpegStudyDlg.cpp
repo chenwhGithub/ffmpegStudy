@@ -33,6 +33,7 @@ BEGIN_MESSAGE_MAP(CffmpegStudyDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
     ON_BN_CLICKED(IDC_BUTTON_PARSEH264, &CffmpegStudyDlg::OnClickedButtonParseh264)
+    ON_BN_CLICKED(IDC_BUTTON_PARSEAAC, &CffmpegStudyDlg::OnClickedButtonParseaac)
 END_MESSAGE_MAP()
 
 
@@ -89,10 +90,19 @@ HCURSOR CffmpegStudyDlg::OnQueryDragIcon()
 }
 
 
-
+// parse H264 file without FFmpeg lib
 void CffmpegStudyDlg::OnClickedButtonParseh264()
 {
     // TODO: Add your control notification handler code here
     CparseH264Dlg dlg;
     dlg.DoModal();
+}
+
+
+// parse AAC file without FFmpeg lib
+void CffmpegStudyDlg::OnClickedButtonParseaac()
+{
+    // TODO: Add your control notification handler code here
+    CString temp = CString("TODO");
+    MessageBox(temp);
 }
