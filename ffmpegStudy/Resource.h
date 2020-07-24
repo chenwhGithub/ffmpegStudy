@@ -8,6 +8,7 @@
 #define IDC_BUTTON_PARSEH264            1000
 #define IDC_MFCEDITBROWSE               1001
 #define IDC_BUTTON_PARSEAAC             1001
+#define IDC_BUTTON_FFMPEGVIDEO          1002
 #define IDC_LIST                        1003
 #define IDC_EDIT                        1004
 

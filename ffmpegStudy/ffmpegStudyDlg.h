@@ -33,4 +33,5 @@ protected:
 public:
     afx_msg void OnClickedButtonParseh264();
     afx_msg void OnClickedButtonParseaac();
+    afx_msg void OnClickedButtonFfmpegvideo();
 };

@@ -34,6 +34,7 @@ BEGIN_MESSAGE_MAP(CffmpegStudyDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
     ON_BN_CLICKED(IDC_BUTTON_PARSEH264, &CffmpegStudyDlg::OnClickedButtonParseh264)
     ON_BN_CLICKED(IDC_BUTTON_PARSEAAC, &CffmpegStudyDlg::OnClickedButtonParseaac)
+    ON_BN_CLICKED(IDC_BUTTON_FFMPEGVIDEO, &CffmpegStudyDlg::OnClickedButtonFfmpegvideo)
 END_MESSAGE_MAP()
 
 
@@ -105,4 +106,11 @@ void CffmpegStudyDlg::OnClickedButtonParseaac()
     // TODO: Add your control notification handler code here
     CString temp = CString("TODO");
     MessageBox(temp);
+}
+
+
+// parse video file with FFmpeg lib
+void CffmpegStudyDlg::OnClickedButtonFfmpegvideo()
+{
+    // TODO: Add your control notification handler code here
 }
