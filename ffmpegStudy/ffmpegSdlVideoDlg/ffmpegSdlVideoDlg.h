@@ -22,6 +22,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
     CMFCEditBrowseCtrl m_browse;
-    CEdit m_edit;
     afx_msg void OnClickedButtonPlayVideo();
 };
