@@ -25,6 +25,45 @@
     <Filter Include="parseH264Dlg">
       <UniqueIdentifier>{42852e00-fe1e-40f4-b74a-295a29692335}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ffmpegSdlVideoDlg">
+      <UniqueIdentifier>{22b56567-acb4-42c0-9919-68a3a867ed96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\ffmpeg">
+      <UniqueIdentifier>{bad60ede-dbeb-4a04-88fc-84b6c9ff3da5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\sdl">
+      <UniqueIdentifier>{32421302-535e-45a0-b6da-d22ecd7338d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\sdl\include">
+      <UniqueIdentifier>{f5ad3c00-e187-4e8d-9fae-c4c00d64939e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\ffmpeg\include">
+      <UniqueIdentifier>{7bab5c31-210b-47a3-8085-b29968860a9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\ffmpeg\include\libavcodec">
+      <UniqueIdentifier>{2674aedd-f53c-4048-b15e-c12e0c364429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\ffmpeg\include\libavdevice">
+      <UniqueIdentifier>{7d7d7b4e-6b0e-4d24-b7ea-4417f3c6ea48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\ffmpeg\include\libavfilter">
+      <UniqueIdentifier>{146c491e-acd9-48d8-89ea-f366043d2b6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\ffmpeg\include\libavformat">
+      <UniqueIdentifier>{2d2b382a-50bb-4bc7-ae24-28cfc5e1c744}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\ffmpeg\include\libavutil">
+      <UniqueIdentifier>{a92a2934-1f34-41e6-90a6-2150247d9009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\ffmpeg\include\libpostproc">
+      <UniqueIdentifier>{99b72843-08fa-4204-a6c8-5a79d3e74518}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\ffmpeg\include\libswresample">
+      <UniqueIdentifier>{0bec12ff-6390-41b0-9130-d82e0846710a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\ffmpeg\include\libswscale">
+      <UniqueIdentifier>{d404085f-4c63-4777-b3b5-b2c34c15b4fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ffmpegStudy.h">
@@ -54,6 +93,636 @@
     <ClInclude Include="parseH264Dlg\parseH264Dlg.h">
       <Filter>parseH264Dlg</Filter>
     </ClInclude>
+    <ClInclude Include="ffmpegSdlVideoDlg\ffmpegSdlVideoDlg.h">
+      <Filter>ffmpegSdlVideoDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\begin_code.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\close_code.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_assert.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_atomic.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_audio.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_bits.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_blendmode.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_clipboard.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_config.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_config_android.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_config_iphoneos.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_config_macosx.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_config_minimal.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_config_pandora.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_config_psp.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_config_windows.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_config_winrt.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_config_wiz.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_copying.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_cpuinfo.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_egl.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_endian.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_error.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_events.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_filesystem.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_gamecontroller.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_gesture.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_haptic.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_hints.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_joystick.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_keyboard.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_keycode.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_loadso.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_log.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_main.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_messagebox.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_metal.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_mouse.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_mutex.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_name.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_opengl.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_opengl_glext.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_opengles.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_opengles2.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_opengles2_gl2.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_opengles2_gl2ext.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_opengles2_gl2platform.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_opengles2_khrplatform.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_pixels.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_platform.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_power.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_quit.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_rect.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_render.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_revision.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_rwops.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_scancode.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_sensor.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_shape.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_stdinc.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_surface.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_system.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_syswm.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_test.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_test_assert.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_test_common.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_test_compare.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_test_crc32.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_test_font.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_test_fuzzer.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_test_harness.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_test_images.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_test_log.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_test_md5.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_test_memory.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_test_random.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_thread.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_timer.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_touch.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_types.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_version.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_video.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\sdl\include\SDL_vulkan.h">
+      <Filter>libs\sdl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\ac3_parser.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\adts_parser.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\avcodec.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\avdct.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\avfft.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\bsf.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\codec.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\codec_desc.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\codec_id.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\codec_par.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\d3d11va.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\dirac.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\dv_profile.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\dxva2.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\jni.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\mediacodec.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\packet.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\qsv.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\vaapi.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\vdpau.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\version.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\videotoolbox.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\vorbis_parser.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavcodec\xvmc.h">
+      <Filter>libs\ffmpeg\include\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavdevice\avdevice.h">
+      <Filter>libs\ffmpeg\include\libavdevice</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavdevice\version.h">
+      <Filter>libs\ffmpeg\include\libavdevice</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavfilter\avfilter.h">
+      <Filter>libs\ffmpeg\include\libavfilter</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavfilter\buffersink.h">
+      <Filter>libs\ffmpeg\include\libavfilter</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavfilter\buffersrc.h">
+      <Filter>libs\ffmpeg\include\libavfilter</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavfilter\version.h">
+      <Filter>libs\ffmpeg\include\libavfilter</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavformat\avformat.h">
+      <Filter>libs\ffmpeg\include\libavformat</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavformat\avio.h">
+      <Filter>libs\ffmpeg\include\libavformat</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavformat\version.h">
+      <Filter>libs\ffmpeg\include\libavformat</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\adler32.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\aes.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\aes_ctr.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\attributes.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\audio_fifo.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\avassert.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\avconfig.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\avstring.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\avutil.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\base64.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\blowfish.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\bprint.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\bswap.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\buffer.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\camellia.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\cast5.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\channel_layout.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\common.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\cpu.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\crc.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\des.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\dict.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\display.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\dovi_meta.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\downmix_info.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\encryption_info.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\error.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\eval.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\ffversion.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\fifo.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\file.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\frame.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hash.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hdr_dynamic_metadata.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hmac.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hwcontext.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hwcontext_cuda.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hwcontext_d3d11va.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hwcontext_drm.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hwcontext_dxva2.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hwcontext_mediacodec.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hwcontext_opencl.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hwcontext_qsv.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hwcontext_vaapi.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hwcontext_vdpau.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hwcontext_videotoolbox.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\hwcontext_vulkan.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\imgutils.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\intfloat.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\intreadwrite.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\lfg.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\log.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\lzo.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\macros.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\mastering_display_metadata.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\mathematics.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\md5.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\mem.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\motion_vector.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\murmur3.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\opt.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\parseutils.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\pixdesc.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\pixelutils.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\pixfmt.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\random_seed.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\rational.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\rc4.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\replaygain.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\ripemd.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\samplefmt.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\sha.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\sha512.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\spherical.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\stereo3d.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\tea.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\threadmessage.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\time.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\timecode.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\timestamp.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\tree.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\twofish.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\tx.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\version.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\video_enc_params.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libavutil\xtea.h">
+      <Filter>libs\ffmpeg\include\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libpostproc\postprocess.h">
+      <Filter>libs\ffmpeg\include\libpostproc</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libpostproc\version.h">
+      <Filter>libs\ffmpeg\include\libpostproc</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libswresample\swresample.h">
+      <Filter>libs\ffmpeg\include\libswresample</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libswresample\version.h">
+      <Filter>libs\ffmpeg\include\libswresample</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libswscale\swscale.h">
+      <Filter>libs\ffmpeg\include\libswscale</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffmpeg\include\libswscale\version.h">
+      <Filter>libs\ffmpeg\include\libswscale</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ffmpegStudy.cpp">
@@ -70,6 +739,9 @@
     </ClCompile>
     <ClCompile Include="parseH264Dlg\parseH264Dlg.cpp">
       <Filter>parseH264Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="ffmpegSdlVideoDlg\ffmpegSdlVideoDlg.cpp">
+      <Filter>ffmpegSdlVideoDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

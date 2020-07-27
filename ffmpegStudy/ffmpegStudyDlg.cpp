@@ -8,6 +8,7 @@
 #include "ffmpegStudyDlg.h"
 #include "afxdialogex.h"
 #include "parseH264Dlg/parseH264Dlg.h"
+#include "ffmpegSdlVideoDlg/ffmpegSdlVideoDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -113,4 +114,6 @@ void CffmpegStudyDlg::OnClickedButtonParseaac()
 void CffmpegStudyDlg::OnClickedButtonFfmpegvideo()
 {
     // TODO: Add your control notification handler code here
+    CffmpegSdlVideoDlg dlg;
+    dlg.DoModal();
 }
