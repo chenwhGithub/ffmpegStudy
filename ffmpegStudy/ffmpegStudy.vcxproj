@@ -197,6 +197,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ffmpegSdlAudioDlg\ffmpegSdlAudioDlg.h" />
     <ClInclude Include="ffmpegSdlVideoDlg\ffmpegSdlVideoDlg.h" />
     <ClInclude Include="libs\bitstream\bs.h" />
     <ClInclude Include="libs\ffmpeg\include\libavcodec\ac3_parser.h" />
@@ -418,6 +419,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ffmpegSdlAudioDlg\ffmpegSdlAudioDlg.cpp" />
     <ClCompile Include="ffmpegSdlVideoDlg\ffmpegSdlVideoDlg.cpp" />
     <ClCompile Include="libs\h264stream\H264_stream.cpp" />
     <ClCompile Include="ffmpegStudy.cpp" />
