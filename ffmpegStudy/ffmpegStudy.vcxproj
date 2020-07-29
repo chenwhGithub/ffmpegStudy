@@ -199,6 +199,7 @@
   <ItemGroup>
     <ClInclude Include="ffmpegSdlAudioDlg\ffmpegSdlAudioDlg.h" />
     <ClInclude Include="ffmpegSdlVideoDlg\ffmpegSdlVideoDlg.h" />
+    <ClInclude Include="ffplayDlg\ffplayDlg.h" />
     <ClInclude Include="libs\bitstream\bs.h" />
     <ClInclude Include="libs\ffmpeg\include\libavcodec\ac3_parser.h" />
     <ClInclude Include="libs\ffmpeg\include\libavcodec\adts_parser.h" />
@@ -325,6 +326,7 @@
     <ClInclude Include="libs\ffmpeg\include\libswresample\version.h" />
     <ClInclude Include="libs\ffmpeg\include\libswscale\swscale.h" />
     <ClInclude Include="libs\ffmpeg\include\libswscale\version.h" />
+    <ClInclude Include="libs\ffplay\ffplay.h" />
     <ClInclude Include="libs\h264stream\H264_stream.h" />
     <ClInclude Include="ffmpegStudy.h" />
     <ClInclude Include="ffmpegStudyDlg.h" />
@@ -421,6 +423,8 @@
   <ItemGroup>
     <ClCompile Include="ffmpegSdlAudioDlg\ffmpegSdlAudioDlg.cpp" />
     <ClCompile Include="ffmpegSdlVideoDlg\ffmpegSdlVideoDlg.cpp" />
+    <ClCompile Include="ffplayDlg\ffplayDlg.cpp" />
+    <ClCompile Include="libs\ffplay\ffplay.cpp" />
     <ClCompile Include="libs\h264stream\H264_stream.cpp" />
     <ClCompile Include="ffmpegStudy.cpp" />
     <ClCompile Include="ffmpegStudyDlg.cpp" />

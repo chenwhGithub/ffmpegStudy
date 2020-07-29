@@ -67,6 +67,12 @@
     <Filter Include="ffmpegSdlAudioDlg">
       <UniqueIdentifier>{d3898239-9bb4-4d16-b38d-0a14388565a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ffplayDlg">
+      <UniqueIdentifier>{323a4546-a8a1-4e20-a861-e7b0bb5e9375}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\ffplay">
+      <UniqueIdentifier>{05c59c04-82e3-4128-893a-6195cf884ccd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ffmpegStudy.h">
@@ -729,6 +735,12 @@
     <ClInclude Include="ffmpegSdlAudioDlg\ffmpegSdlAudioDlg.h">
       <Filter>ffmpegSdlAudioDlg</Filter>
     </ClInclude>
+    <ClInclude Include="ffplayDlg\ffplayDlg.h">
+      <Filter>ffplayDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ffplay\ffplay.h">
+      <Filter>libs\ffplay</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ffmpegStudy.cpp">
@@ -751,6 +763,12 @@
     </ClCompile>
     <ClCompile Include="ffmpegSdlAudioDlg\ffmpegSdlAudioDlg.cpp">
       <Filter>ffmpegSdlAudioDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="ffplayDlg\ffplayDlg.cpp">
+      <Filter>ffplayDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\ffplay\ffplay.cpp">
+      <Filter>libs\ffplay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -35,4 +35,5 @@ public:
     afx_msg void OnClickedButtonParseaac();
     afx_msg void OnClickedButtonFfmpegvideo();
     afx_msg void OnClickedButtonFfmpegaudio();
+    afx_msg void OnClickedButtonFfmpegFfplay();
 };
