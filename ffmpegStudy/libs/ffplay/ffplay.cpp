@@ -1114,8 +1114,8 @@ static void do_exit(VideoState *is)
     if (is) {
         stream_close(is);
     }
-    if (renderer)
-        SDL_DestroyRenderer(renderer);
+    // if (renderer)
+    //    SDL_DestroyRenderer(renderer);
     // if (window)
     //    SDL_DestroyWindow(window);
     uninit_opts();
@@ -1127,7 +1127,7 @@ static void do_exit(VideoState *is)
         printf("\n");
     SDL_Quit();
     av_log(NULL, AV_LOG_QUIET, "%s", "");
-    exit(0);
+    // exit(0);
 }
 
 static void sigterm_handler(int sig)
@@ -3372,15 +3372,12 @@ UINT ffplay_start(LPVOID lpParam)
     av_init_packet(&flush_pkt);
     flush_pkt.data = (uint8_t *)&flush_pkt;
 
-    window = SDL_CreateWindowFrom(dlg->m_show.GetSafeHwnd());
     if (!window) {
-        printf("SDL: could not create window - exiting:%s\n", SDL_GetError());
-        return 0;
+        window = SDL_CreateWindowFrom(dlg->m_show.GetSafeHwnd());
     }
 
-    renderer = SDL_CreateRenderer(window, -1, 0);
     if (!renderer) {
-        av_log(NULL, AV_LOG_WARNING, "Failed to initialize a hardware accelerated renderer: %s\n", SDL_GetError());
+        renderer = SDL_CreateRenderer(window, -1, 0);
     }
 
     is = stream_open(input_filename, file_iformat);
