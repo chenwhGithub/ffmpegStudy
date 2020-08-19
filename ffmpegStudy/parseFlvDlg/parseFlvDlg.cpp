@@ -11,7 +11,7 @@ typedef struct {
     unsigned char signature[3];
     unsigned char version;
     unsigned char flags;
-    unsigned int  dataOffset;
+    unsigned char dataOffset[4];
 } FLV_HEADER;
 
 typedef struct {
@@ -40,16 +40,6 @@ CparseFlvDlg::~CparseFlvDlg()
         fclose(m_fpFlv);
         m_fpFlv = NULL;
     }
-    if (m_fpOutputAudio)
-    {
-        fclose(m_fpOutputAudio);
-        m_fpOutputAudio = NULL;
-    }
-    if (m_fpOutputVideo)
-    {
-        fclose(m_fpOutputVideo);
-        m_fpOutputVideo = NULL;
-    }
 }
 
 void CparseFlvDlg::DoDataExchange(CDataExchange* pDX)
@@ -74,8 +64,6 @@ BOOL CparseFlvDlg::OnInitDialog()
 
     // TODO:  Add extra initialization here
     m_fpFlv = NULL;
-    m_fpOutputAudio = NULL;
-    m_fpOutputVideo = NULL;
     m_tagNum = 0;
 
     DWORD dwExStyle = LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_HEADERDRAGDROP | LVS_EX_ONECLICKACTIVATE;
@@ -88,7 +76,7 @@ BOOL CparseFlvDlg::OnInitDialog()
     m_list.InsertColumn(4, _T("timeStamp"), LVCFMT_CENTER, 100, 0);
     m_list.InsertColumn(5, _T("extend"), LVCFMT_CENTER, 50, 0);
     m_list.InsertColumn(6, _T("steamId"), LVCFMT_CENTER, 70, 0);
-    m_list.InsertColumn(7, _T("tagData1stByte"), LVCFMT_CENTER, 300, 0);
+    m_list.InsertColumn(7, _T("tagData1stByte"), LVCFMT_CENTER, 250, 0);
 
     m_browse.EnableFileBrowseButton(NULL, _T("flv Files (*.flv)|*.flv|All Files (*.*)|*.*||"));
 
@@ -107,16 +95,6 @@ void CparseFlvDlg::OnClickedButtonParseflv()
         fclose(m_fpFlv);
         m_fpFlv = NULL;
     }
-    if (m_fpOutputAudio)
-    {
-        fclose(m_fpOutputAudio);
-        m_fpOutputAudio = NULL;
-    }
-    if (m_fpOutputVideo)
-    {
-        fclose(m_fpOutputVideo);
-        m_fpOutputVideo = NULL;
-    }
 
     CString fileName;
     m_browse.GetWindowTextW(fileName);
@@ -128,13 +106,10 @@ void CparseFlvDlg::OnClickedButtonParseflv()
 }
 
 
-unsigned int CparseFlvDlg::reverseBytes(unsigned char *bytes, int num)
+unsigned int CparseFlvDlg::reverseInt(unsigned char *bytes)
 {
     unsigned int r = 0;
-    for (int i = 0; i < num; i++)
-    {
-        r |= (*(bytes + i) << (((num - 1) * 8) - 8 * i));
-    }
+    r = (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
     return r;
 }
 
@@ -144,6 +119,7 @@ void CparseFlvDlg::parseFlv(CString flvFileName)
     FLV_HEADER flvHeader;
     TAG_HEADER tagHeader;
     CString str;
+    unsigned char chPreviousSize[4] = { 0 };
     unsigned int previousSize = 0;
     unsigned char tagType = 0;
     unsigned int dataSize = 0;
@@ -154,24 +130,22 @@ void CparseFlvDlg::parseFlv(CString flvFileName)
 
     USES_CONVERSION;
     m_fpFlv = fopen(W2A(flvFileName), "r+b");
-    // m_fpOutputAudio = fopen("outputAudio.mp3", "w+b");
-    // m_fpOutputVideo = fopen("outputVideo.flv", "w+b");
 
-    fread((char *)&flvHeader, 1, sizeof(FLV_HEADER), m_fpFlv);
-    str.Format(_T("0x %X %X %X"), flvHeader.signature[0], flvHeader.signature[1], flvHeader.signature[2]);
+    fread((unsigned char *)&flvHeader, 1, sizeof(FLV_HEADER), m_fpFlv);
+    str.Format(_T("0x %X %X %X"), flvHeader.signature[0], flvHeader.signature[1], flvHeader.signature[2]); // "F L V"
     SetDlgItemText(IDC_STATIC_SIGNATURE, str);
-    str.Format(_T("0x %X"), flvHeader.version);
+    str.Format(_T("0x %X"), flvHeader.version); // 0x1
     SetDlgItemText(IDC_STATIC_VERSION, str);
-    str.Format(_T("0x %X"), flvHeader.flags);
+    str.Format(_T("0x %X"), flvHeader.flags);   // 0x5
     SetDlgItemText(IDC_STATIC_FLAGS, str);
-    str.Format(_T("0x %X"), reverseBytes((unsigned char *)&flvHeader.dataOffset, sizeof(flvHeader.dataOffset)));
+    str.Format(_T("0x %X"), (flvHeader.dataOffset[0] << 24) | (flvHeader.dataOffset[1] << 16) | (flvHeader.dataOffset[2] << 8) | flvHeader.dataOffset[3]); // 0x9
     SetDlgItemText(IDC_STATIC_OFFSET, str);
 
-    // fseek(m_fpFlv, reverseBytes((unsigned char *)&flvHeader.DataOffset, sizeof(flvHeader.DataOffset)), SEEK_SET);
-    fread((char *)&previousSize, sizeof(previousSize), 1, m_fpFlv); // tag0 size
+    fread(chPreviousSize, sizeof(chPreviousSize), 1, m_fpFlv); // tag0 size
+    previousSize = reverseInt(chPreviousSize);
     while (!feof(m_fpFlv))
     {
-         fread((char *)&tagHeader, sizeof(TAG_HEADER), 1, m_fpFlv);
+         fread((unsigned char *)&tagHeader, sizeof(TAG_HEADER), 1, m_fpFlv);
          tagType = tagHeader.tagType;
          dataSize = (tagHeader.dataSize[0] << 16) | (tagHeader.dataSize[1] << 8) | tagHeader.dataSize[2];
          timeStamp = (tagHeader.timeStamp[0] << 16) | (tagHeader.timeStamp[1] << 8) | tagHeader.timeStamp[2];
@@ -180,17 +154,17 @@ void CparseFlvDlg::parseFlv(CString flvFileName)
          switch (tagType)
          {
          case TAG_TYPE_AUDIO:
-             fread((char *)&firstByte, sizeof(firstByte), 1, m_fpFlv);
+             fread((unsigned char *)&firstByte, sizeof(firstByte), 1, m_fpFlv);
              appendTagInfo(previousSize, tagType, dataSize, timeStamp, extend, streamId, firstByte);
              fseek(m_fpFlv, dataSize - 1, SEEK_CUR);
              break;
          case TAG_TYPE_VIDEO:
-             fread((char *)&firstByte, sizeof(firstByte), 1, m_fpFlv);
+             fread((unsigned char *)&firstByte, sizeof(firstByte), 1, m_fpFlv);
              appendTagInfo(previousSize, tagType, dataSize, timeStamp, extend, streamId, firstByte);
              fseek(m_fpFlv, dataSize - 1, SEEK_CUR);
              break;
          case TAG_TYPE_SCRIPT:
-             fread((char *)&firstByte, sizeof(firstByte), 1, m_fpFlv);
+             fread((unsigned char *)&firstByte, sizeof(firstByte), 1, m_fpFlv);
              appendTagInfo(previousSize, tagType, dataSize, timeStamp, extend, streamId, firstByte);
              fseek(m_fpFlv, dataSize - 1, SEEK_CUR);
              break;
@@ -198,7 +172,8 @@ void CparseFlvDlg::parseFlv(CString flvFileName)
              fseek(m_fpFlv, dataSize, SEEK_CUR);
              break;
          }
-         fread((char *)&previousSize, sizeof(previousSize), 1, m_fpFlv);
+         fread(chPreviousSize, sizeof(chPreviousSize), 1, m_fpFlv); // tag1-N size
+         previousSize = reverseInt(chPreviousSize);
 
          m_tagNum++;
          if (TAG_MAXNUM == m_tagNum)
@@ -206,100 +181,6 @@ void CparseFlvDlg::parseFlv(CString flvFileName)
              break;
          }
     }
-/*
-
-    do {
-
-        case TAG_TYPE_AUDIO: { //we only process like this if we are separating audio into an mp3 file
-            //还需要获取TagData的第一个字节---------------------------------
-            char tagdata_first_byte = fgetc(ifh);
-            dlg->AppendTLInfo(tagheader.TagType, temp_datasize, temp_timestamp, tagheader.Reserved, tagdata_first_byte);
-
-            //if the output file hasn't been opened, open it.
-            if (output_audio&&afh == NULL) {
-                afh = open_output_file(ptag);
-            }
-
-
-            int data_size = reverse_bytes((byte *)&tagheader.DataSize, sizeof(tagheader.DataSize)) - 1;
-            //决定是否输出
-            if (output_audio) {
-                //dump the audio data to the output file
-                for (int i = 0; i < data_size; i++)
-                    fputc(fgetc(ifh), afh);
-            }
-            else {
-                for (int i = 0; i < data_size; i++)
-                    fgetc(ifh);
-            }
-            break;
-        }
-        case TAG_TYPE_VIDEO: {
-            //还需要获取TagData的第一个字节---------------------------------
-
-            char tagdata_first_byte = fgetc(ifh);
-            dlg->AppendTLInfo(tagheader.TagType, temp_datasize, temp_timestamp, tagheader.Reserved, tagdata_first_byte);
-            //倒回去，不影响下面的操作
-            fseek(ifh, -1, SEEK_CUR);
-            //if the output file hasn't been opened, open it.
-            if (vfh == NULL) {
-
-                //record the timestamp offset for this slice
-                ts_offset = reverse_bytes((byte *)&tagheader.Timestamp, sizeof(tagheader.Timestamp));
-
-                //write the flv header (reuse the original file's hdr) and first previoustagsize
-                if (output_video) {
-                    vfh = open_output_file(ptag);
-                    fwrite((char *)&flv, 1, sizeof(flv), vfh);
-                    fwrite((char *)&previoustagsize_z, 1, sizeof(previoustagsize_z), vfh);
-                }
-            }
-
-#if 0
-            //offset the timestamp in the tag
-            ts = reverse_bytes((byte *)&tagheader.Timestamp, sizeof(tagheader.Timestamp)) - ts_offset;
-
-            //reverse the timestamp bytes back into BigEndian
-            ts_new = reverse_bytes((byte *)&ts, sizeof(ts));
-
-            //overwrite the highest 3 bytes of the integer into the timestamp
-            memcpy(&tagheader.Timestamp, ((char *)&ts_new) + 1, sizeof(tagheader.Timestamp));
-#endif					
-
-
-            int data_size = reverse_bytes((byte *)&tagheader.DataSize, sizeof(tagheader.DataSize)) + 4;
-            //决定是否输出
-            if (output_video) {
-                //dump the video data to the output file, including the previoustagsize field
-                    //TagHeader
-                fwrite((char *)&tagheader, 1, sizeof(tagheader), vfh);
-                //TagData
-                for (int i = 0; i < data_size; i++)
-                    fputc(fgetc(ifh), vfh);
-            }
-            else {
-                for (int i = 0; i < data_size; i++)
-                    fgetc(ifh);
-            }
-            //rewind 4 bytes, because we need to read the previoustagsize again for the loop's sake
-            fseek(ifh, -4, SEEK_CUR);
-
-            break;
-        }
-        case TAG_TYPE_SCRIPT: {
-            char tagdata_first_byte = fgetc(ifh);
-            dlg->AppendTLInfo(tagheader.TagType, temp_datasize, temp_timestamp, tagheader.Reserved, tagdata_first_byte);
-            fseek(ifh, -1, SEEK_CUR);
-
-            fseek(ifh, reverse_bytes((byte *)&tagheader.DataSize, sizeof(tagheader.DataSize)), SEEK_CUR);
-            break;
-        }
-        default: {
-            fseek(ifh, reverse_bytes((byte *)&tagheader.DataSize, sizeof(tagheader.DataSize)), SEEK_CUR);
-            break;
-        }
-        }
-        */
 }
 
 
@@ -373,7 +254,7 @@ void CparseFlvDlg::appendTagInfo(unsigned int previousSize, unsigned char tagTyp
         case 1:strFirstByte.AppendFormat(_T("key frame")); break;
         case 2:strFirstByte.AppendFormat(_T("inter frame")); break;
         case 3:strFirstByte.AppendFormat(_T("disposable inter frame")); break;
-        case 4:strFirstByte.AppendFormat(_T("generated keyframe ")); break;
+        case 4:strFirstByte.AppendFormat(_T("generated keyframe")); break;
         case 5:strFirstByte.AppendFormat(_T("video info/command frame")); break;
         default:strFirstByte.AppendFormat(_T("%s"), "Unknown"); break;
         }

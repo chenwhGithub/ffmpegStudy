@@ -29,14 +29,12 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
     void parseFlv(CString flvFileName);
-    unsigned int reverseBytes(unsigned char *bytes, int num);
+    unsigned int reverseInt(unsigned char *bytes);
     void appendTagInfo(unsigned int previousSize, unsigned char tagType, unsigned int dataSize, unsigned int timeStamp,
                        unsigned char extend, unsigned int streamId, unsigned char firstByte);
     CMFCEditBrowseCtrl m_browse;
     CListCtrl m_list;
     FILE *m_fpFlv;
-    FILE *m_fpOutputAudio;
-    FILE *m_fpOutputVideo;
     unsigned int m_tagNum;
     afx_msg void OnClickedButtonParseflv();
     virtual BOOL OnInitDialog();
