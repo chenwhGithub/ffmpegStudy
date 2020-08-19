@@ -47,6 +47,7 @@ void CparseFlvDlg::DoDataExchange(CDataExchange* pDX)
     CDialogEx::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_MFCEDITBROWSE, m_browse);
     DDX_Control(pDX, IDC_LIST, m_list);
+    DDX_Control(pDX, IDC_EDIT, m_edit);
 }
 
 
@@ -76,7 +77,7 @@ BOOL CparseFlvDlg::OnInitDialog()
     m_list.InsertColumn(4, _T("timeStamp"), LVCFMT_CENTER, 100, 0);
     m_list.InsertColumn(5, _T("extend"), LVCFMT_CENTER, 50, 0);
     m_list.InsertColumn(6, _T("steamId"), LVCFMT_CENTER, 70, 0);
-    m_list.InsertColumn(7, _T("tagData1stByte"), LVCFMT_CENTER, 250, 0);
+    m_list.InsertColumn(7, _T("tagData1stByte"), LVCFMT_CENTER, 200, 0);
 
     m_browse.EnableFileBrowseButton(NULL, _T("flv Files (*.flv)|*.flv|All Files (*.*)|*.*||"));
 
@@ -89,6 +90,8 @@ void CparseFlvDlg::OnClickedButtonParseflv()
 {
     // TODO: Add your control notification handler code here
     m_list.DeleteAllItems();
+    m_edit.Clear();
+    m_editString.Empty();
     m_tagNum = 0;
     if (m_fpFlv)
     {
@@ -132,14 +135,15 @@ void CparseFlvDlg::parseFlv(CString flvFileName)
     m_fpFlv = fopen(W2A(flvFileName), "r+b");
 
     fread((unsigned char *)&flvHeader, 1, sizeof(FLV_HEADER), m_fpFlv);
-    str.Format(_T("0x %X %X %X"), flvHeader.signature[0], flvHeader.signature[1], flvHeader.signature[2]); // "F L V"
-    SetDlgItemText(IDC_STATIC_SIGNATURE, str);
-    str.Format(_T("0x %X"), flvHeader.version); // 0x1
-    SetDlgItemText(IDC_STATIC_VERSION, str);
-    str.Format(_T("0x %X"), flvHeader.flags);   // 0x5
-    SetDlgItemText(IDC_STATIC_FLAGS, str);
-    str.Format(_T("0x %X"), (flvHeader.dataOffset[0] << 24) | (flvHeader.dataOffset[1] << 16) | (flvHeader.dataOffset[2] << 8) | flvHeader.dataOffset[3]); // 0x9
-    SetDlgItemText(IDC_STATIC_OFFSET, str);
+    m_editString.Format(_T("**************** Header ****************\r\n"));
+    str.Format(_T("signature: 0x %X %X %X\r\n"), flvHeader.signature[0], flvHeader.signature[1], flvHeader.signature[2]); // "F L V"
+    m_editString += str;
+    str.Format(_T("version: 0x %X\r\n"), flvHeader.version); // 0x1
+    m_editString += str;
+    str.Format(_T("flags: 0x %X\r\n"), flvHeader.flags);   // 0x5
+    m_editString += str;
+    str.Format(_T("offset: 0x %X\r\n"), (flvHeader.dataOffset[0] << 24) | (flvHeader.dataOffset[1] << 16) | (flvHeader.dataOffset[2] << 8) | flvHeader.dataOffset[3]); // 0x9
+    m_editString += str;
 
     fread(chPreviousSize, sizeof(chPreviousSize), 1, m_fpFlv); // tag0 size
     previousSize = reverseInt(chPreviousSize);
@@ -154,19 +158,14 @@ void CparseFlvDlg::parseFlv(CString flvFileName)
          switch (tagType)
          {
          case TAG_TYPE_AUDIO:
-             fread((unsigned char *)&firstByte, sizeof(firstByte), 1, m_fpFlv);
-             appendTagInfo(previousSize, tagType, dataSize, timeStamp, extend, streamId, firstByte);
-             fseek(m_fpFlv, dataSize - 1, SEEK_CUR);
-             break;
          case TAG_TYPE_VIDEO:
              fread((unsigned char *)&firstByte, sizeof(firstByte), 1, m_fpFlv);
              appendTagInfo(previousSize, tagType, dataSize, timeStamp, extend, streamId, firstByte);
              fseek(m_fpFlv, dataSize - 1, SEEK_CUR);
              break;
          case TAG_TYPE_SCRIPT:
-             fread((unsigned char *)&firstByte, sizeof(firstByte), 1, m_fpFlv);
-             appendTagInfo(previousSize, tagType, dataSize, timeStamp, extend, streamId, firstByte);
-             fseek(m_fpFlv, dataSize - 1, SEEK_CUR);
+             appendTagInfo(previousSize, tagType, dataSize, timeStamp, extend, streamId, 0);
+             fseek(m_fpFlv, dataSize, SEEK_CUR);
              break;
          default:
              fseek(m_fpFlv, dataSize, SEEK_CUR);
@@ -181,6 +180,8 @@ void CparseFlvDlg::parseFlv(CString flvFileName)
              break;
          }
     }
+
+    m_edit.SetWindowTextW(m_editString);
 }
 
 
@@ -188,11 +189,15 @@ void CparseFlvDlg::appendTagInfo(unsigned int previousSize, unsigned char tagTyp
                                  unsigned char extend, unsigned int streamId, unsigned char firstByte)
 {
     CString strIndex, strPreviousSize, strTagType, strDataSize, strTimeStamp, strExtend, strStreamId, strFirstByte;
+    int mSec = timeStamp % 1000;
+    int sec = (timeStamp / 1000) % 60;
+    int min = ((timeStamp / 1000) / 60) % 60;
+    int hour = (timeStamp / 1000) / 3600;
 
     strIndex.Format(_T("%d"), m_tagNum);
     strPreviousSize.Format(_T("%d"), previousSize);
     strDataSize.Format(_T("%d"), dataSize);
-    strTimeStamp.Format(_T("%d"), timeStamp);
+    strTimeStamp.Format(_T("%02d:%02d:%02d.%03d"), hour, min, sec, mSec);
     strExtend.Format(_T("%d"), extend);
     strStreamId.Format(_T("%d"), streamId);
 

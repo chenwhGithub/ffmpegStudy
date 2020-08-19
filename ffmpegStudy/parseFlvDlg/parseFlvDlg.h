@@ -7,7 +7,7 @@
 #define TAG_TYPE_VIDEO  9
 #define TAG_TYPE_SCRIPT 18
 
-#define TAG_MAXNUM      50
+#define TAG_MAXNUM      100
 
 
 class CparseFlvDlg : public CDialogEx
@@ -34,8 +34,10 @@ public:
                        unsigned char extend, unsigned int streamId, unsigned char firstByte);
     CMFCEditBrowseCtrl m_browse;
     CListCtrl m_list;
+    CEdit m_edit;
     FILE *m_fpFlv;
     unsigned int m_tagNum;
+    CString m_editString;
     afx_msg void OnClickedButtonParseflv();
     virtual BOOL OnInitDialog();
 };
