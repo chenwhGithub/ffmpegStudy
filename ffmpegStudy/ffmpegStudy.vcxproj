@@ -415,6 +415,7 @@
     <ClInclude Include="libs\sdl\include\SDL_version.h" />
     <ClInclude Include="libs\sdl\include\SDL_video.h" />
     <ClInclude Include="libs\sdl\include\SDL_vulkan.h" />
+    <ClInclude Include="parseFlvDlg\parseFlvDlg.h" />
     <ClInclude Include="parseH264Dlg\parseH264Dlg.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
@@ -428,6 +429,7 @@
     <ClCompile Include="libs\h264stream\H264_stream.cpp" />
     <ClCompile Include="ffmpegStudy.cpp" />
     <ClCompile Include="ffmpegStudyDlg.cpp" />
+    <ClCompile Include="parseFlvDlg\parseFlvDlg.cpp" />
     <ClCompile Include="parseH264Dlg\parseH264Dlg.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

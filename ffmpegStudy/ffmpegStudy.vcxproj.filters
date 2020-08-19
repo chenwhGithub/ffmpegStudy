@@ -73,6 +73,9 @@
     <Filter Include="libs\ffplay">
       <UniqueIdentifier>{05c59c04-82e3-4128-893a-6195cf884ccd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="parseFlvDlg">
+      <UniqueIdentifier>{17348491-994d-4318-9f35-68cd705ff6a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ffmpegStudy.h">
@@ -741,6 +744,9 @@
     <ClInclude Include="libs\ffplay\ffplay.h">
       <Filter>libs\ffplay</Filter>
     </ClInclude>
+    <ClInclude Include="parseFlvDlg\parseFlvDlg.h">
+      <Filter>parseFlvDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ffmpegStudy.cpp">
@@ -769,6 +775,9 @@
     </ClCompile>
     <ClCompile Include="libs\ffplay\ffplay.cpp">
       <Filter>libs\ffplay</Filter>
+    </ClCompile>
+    <ClCompile Include="parseFlvDlg\parseFlvDlg.cpp">
+      <Filter>parseFlvDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

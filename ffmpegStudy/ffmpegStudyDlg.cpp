@@ -7,6 +7,7 @@
 #include "ffmpegStudy.h"
 #include "ffmpegStudyDlg.h"
 #include "afxdialogex.h"
+#include "parseFlvDlg/parseFlvDlg.h"
 #include "parseH264Dlg/parseH264Dlg.h"
 #include "ffmpegSdlVideoDlg/ffmpegSdlVideoDlg.h"
 #include "ffmpegSdlAudioDlg/ffmpegSdlAudioDlg.h"
@@ -40,6 +41,7 @@ BEGIN_MESSAGE_MAP(CffmpegStudyDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BUTTON_FFMPEGVIDEO, &CffmpegStudyDlg::OnClickedButtonFfmpegvideo)
     ON_BN_CLICKED(IDC_BUTTON_FFMPEGAUDIO, &CffmpegStudyDlg::OnClickedButtonFfmpegaudio)
     ON_BN_CLICKED(IDC_BUTTON_FFMPEGFFPLAY, &CffmpegStudyDlg::OnClickedButtonFfmpegFfplay)
+    ON_BN_CLICKED(IDC_BUTTON_PARSEFLV, &CffmpegStudyDlg::OnClickedButtonParseflv)
 END_MESSAGE_MAP()
 
 
@@ -135,5 +137,13 @@ void CffmpegStudyDlg::OnClickedButtonFfmpegFfplay()
 {
     // TODO: Add your control notification handler code here
     CffplayDlg dlg;
+    dlg.DoModal();
+}
+
+
+void CffmpegStudyDlg::OnClickedButtonParseflv()
+{
+    // TODO: Add your control notification handler code here
+    CparseFlvDlg dlg;
     dlg.DoModal();
 }
