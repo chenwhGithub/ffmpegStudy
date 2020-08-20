@@ -200,6 +200,7 @@
     <ClInclude Include="ffmpegSdlAudioDlg\ffmpegSdlAudioDlg.h" />
     <ClInclude Include="ffmpegSdlVideoDlg\ffmpegSdlVideoDlg.h" />
     <ClInclude Include="ffplayDlg\ffplayDlg.h" />
+    <ClInclude Include="libs\amf\amf.h" />
     <ClInclude Include="libs\bitstream\bs.h" />
     <ClInclude Include="libs\ffmpeg\include\libavcodec\ac3_parser.h" />
     <ClInclude Include="libs\ffmpeg\include\libavcodec\adts_parser.h" />

@@ -5,6 +5,13 @@
 #include "../ffmpegStudy.h"
 #include "parseFlvDlg.h"
 #include "afxdialogex.h"
+#include "../libs/amf/amf.h"
+
+#define TAG_TYPE_AUDIO  8
+#define TAG_TYPE_VIDEO  9
+#define TAG_TYPE_SCRIPT 18
+
+#define TAG_MAXNUM      100
 
 #pragma pack(1)
 typedef struct {
@@ -109,19 +116,11 @@ void CparseFlvDlg::OnClickedButtonParseflv()
 }
 
 
-unsigned int CparseFlvDlg::reverseInt(unsigned char *bytes)
-{
-    unsigned int r = 0;
-    r = (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
-    return r;
-}
-
-
 void CparseFlvDlg::parseFlv(CString flvFileName)
 {
     FLV_HEADER flvHeader;
     TAG_HEADER tagHeader;
-    CString str;
+    CString strTemp;
     unsigned char chPreviousSize[4] = { 0 };
     unsigned int previousSize = 0;
     unsigned char tagType = 0;
@@ -136,25 +135,25 @@ void CparseFlvDlg::parseFlv(CString flvFileName)
 
     fread((unsigned char *)&flvHeader, 1, sizeof(FLV_HEADER), m_fpFlv);
     m_editString.Format(_T("**************** Header ****************\r\n"));
-    str.Format(_T("signature: 0x %X %X %X\r\n"), flvHeader.signature[0], flvHeader.signature[1], flvHeader.signature[2]); // "F L V"
-    m_editString += str;
-    str.Format(_T("version: 0x %X\r\n"), flvHeader.version); // 0x1
-    m_editString += str;
-    str.Format(_T("flags: 0x %X\r\n"), flvHeader.flags);   // 0x5
-    m_editString += str;
-    str.Format(_T("offset: 0x %X\r\n"), (flvHeader.dataOffset[0] << 24) | (flvHeader.dataOffset[1] << 16) | (flvHeader.dataOffset[2] << 8) | flvHeader.dataOffset[3]); // 0x9
-    m_editString += str;
+    strTemp.Format(_T("signature: 0x %X %X %X\r\n"), flvHeader.signature[0], flvHeader.signature[1], flvHeader.signature[2]); // "F L V"
+    m_editString += strTemp;
+    strTemp.Format(_T("version: 0x %X\r\n"), flvHeader.version); // 0x1
+    m_editString += strTemp;
+    strTemp.Format(_T("flags: 0x %X\r\n"), flvHeader.flags);   // 0x5
+    m_editString += strTemp;
+    strTemp.Format(_T("offset: 0x %X\r\n"), decodeUint32(flvHeader.dataOffset)); // 0x9
+    m_editString += strTemp;
 
     fread(chPreviousSize, sizeof(chPreviousSize), 1, m_fpFlv); // tag0 size
-    previousSize = reverseInt(chPreviousSize);
+    previousSize = decodeUint32(chPreviousSize);
     while (!feof(m_fpFlv))
     {
          fread((unsigned char *)&tagHeader, sizeof(TAG_HEADER), 1, m_fpFlv);
          tagType = tagHeader.tagType;
-         dataSize = (tagHeader.dataSize[0] << 16) | (tagHeader.dataSize[1] << 8) | tagHeader.dataSize[2];
-         timeStamp = (tagHeader.timeStamp[0] << 16) | (tagHeader.timeStamp[1] << 8) | tagHeader.timeStamp[2];
+         dataSize = decodeUint24(tagHeader.dataSize);
+         timeStamp = decodeUint24(tagHeader.timeStamp);
          extend = tagHeader.extend;
-         streamId = (tagHeader.streamId[0] << 16) | (tagHeader.streamId[1] << 8) | tagHeader.streamId[2];
+         streamId = decodeUint24(tagHeader.streamId);
          switch (tagType)
          {
          case TAG_TYPE_AUDIO:
@@ -172,7 +171,7 @@ void CparseFlvDlg::parseFlv(CString flvFileName)
              break;
          }
          fread(chPreviousSize, sizeof(chPreviousSize), 1, m_fpFlv); // tag1-N size
-         previousSize = reverseInt(chPreviousSize);
+         previousSize = decodeUint32(chPreviousSize);
 
          m_tagNum++;
          if (TAG_MAXNUM == m_tagNum)
@@ -296,59 +295,10 @@ void CparseFlvDlg::appendTagInfo(unsigned int previousSize, unsigned char tagTyp
 }
 
 
-struct stString
-{
-    unsigned char *strData;
-    unsigned int strLen;
-};
-
-unsigned int decodeUint16(unsigned char *data)
-{
-    unsigned int ret = (data[0] << 8) | data[1];
-    return ret;
-}
-
-unsigned int decodeUint32(unsigned char *data)
-{
-    unsigned int ret = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
-    return ret;
-}
-
-double decodeNumber(unsigned char *data)
-{
-    double ret;
-    unsigned char *ch = (unsigned char *)&ret;
-    ch[0] = data[7];
-    ch[1] = data[6];
-    ch[2] = data[5];
-    ch[3] = data[4];
-    ch[4] = data[3];
-    ch[5] = data[2];
-    ch[6] = data[1];
-    ch[7] = data[0];
-
-    return ret;
-}
-
-unsigned int decodeBool(unsigned char *data)
-{
-    return (data[0] != 0);
-}
-
-stString decodeString(unsigned char *data)
-{
-    stString ret;
-    ret.strLen = decodeUint16(data);
-    ret.strData = data + 2;
-
-    return ret;
-}
 
 
 void CparseFlvDlg::appendScriptInfo(unsigned int dataSize)
 {
-    m_editString += CString("**************** Script ****************\r\n");
-
     unsigned char *data = new unsigned char[dataSize];
     fread(data, dataSize, 1, m_fpFlv);
 
@@ -358,48 +308,50 @@ void CparseFlvDlg::appendScriptInfo(unsigned int dataSize)
     CString strTemp;
     double d;
     unsigned int b;
-    stString str;
     unsigned int strLen;
-    unsigned int num;
+
+    m_editString += CString("**************** Script ****************\r\n");
     while (ptrDataStart < ptrDataEnd)
     {
         dataType = ptrDataStart[0];
         ptrDataStart += 1;
         switch (dataType)
         {
-        case 2: // string
+        case AMFDataType::AMF_STRING:
             strLen = decodeUint16(ptrDataStart);
             ptrDataStart += 2;
             m_editString += CString((const char*)ptrDataStart, strLen) + CString("\r\n");
             ptrDataStart += strLen;
             break;
-        case 8: // ECMA_ARRAY
-            num = decodeUint32(ptrDataStart); // num might not right, end with '00 00 09'
+        case AMFDataType::AMF_ECMA_ARRAY:
+            decodeUint32(ptrDataStart); // num might not right, parse end with '00 00 09'
             ptrDataStart += 4;
             while ((ptrDataStart[0] != 0) || (ptrDataStart[1] != 0) || (ptrDataStart[2] != 0x09))
             {
-                stString key = decodeString(ptrDataStart);
-                m_editString += CString((const char*)key.strData, key.strLen);
-                ptrDataStart += (2 + key.strLen);
-                dataType = ptrDataStart[0];
+                strLen = decodeUint16(ptrDataStart);
+                ptrDataStart += 2;
+                m_editString += CString((const char*)ptrDataStart, strLen); // key
+                ptrDataStart += strLen;
+                dataType = ptrDataStart[0]; // value type
                 ptrDataStart += 1;
                 switch (dataType)
                 {
-                case 0: // number
+                case AMFDataType::AMF_NUMBER:
                     d = decodeNumber(ptrDataStart);
                     strTemp.Format(_T(" : %.0f\r\n"), d);
                     m_editString += strTemp;
-                    ptrDataStart += 8;
+                    ptrDataStart += 8; // number has 8 bytes
                     break;
-                case 1: // bool
+                case AMFDataType::AMF_BOOLEAN:
                     b = decodeBool(ptrDataStart);
                     m_editString += (b ? CString(" : True\r\n") : CString(" : False\r\n"));
-                    ptrDataStart += 1;
+                    ptrDataStart += 1; // bool has 1 byte
                     break;
-                case 2: // string
-                    str = decodeString(ptrDataStart);
-                    m_editString += CString(" : ") + CString((const char*)str.strData, str.strLen) + CString("\r\n");
-                    ptrDataStart += (2 + str.strLen);
+                case AMFDataType::AMF_STRING:
+                    strLen = decodeUint16(ptrDataStart);
+                    ptrDataStart += 2;
+                    m_editString += CString(" : ") + CString((const char*)ptrDataStart, strLen) + CString("\r\n");
+                    ptrDataStart += strLen;
                     break;
                 default:
                     break;
@@ -413,5 +365,3 @@ void CparseFlvDlg::appendScriptInfo(unsigned int dataSize)
 
     delete []data;
 }
-
-

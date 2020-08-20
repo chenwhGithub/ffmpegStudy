@@ -3,12 +3,6 @@
 
 // CparseFlvDlg dialog
 
-#define TAG_TYPE_AUDIO  8
-#define TAG_TYPE_VIDEO  9
-#define TAG_TYPE_SCRIPT 18
-
-#define TAG_MAXNUM      100
-
 
 class CparseFlvDlg : public CDialogEx
 {
@@ -29,7 +23,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
     void parseFlv(CString flvFileName);
-    unsigned int reverseInt(unsigned char *bytes);
     void appendTagInfo(unsigned int previousSize, unsigned char tagType, unsigned int dataSize, unsigned int timeStamp,
                        unsigned char extend, unsigned int streamId, unsigned char firstByte);
     void appendScriptInfo(unsigned int dataSize);

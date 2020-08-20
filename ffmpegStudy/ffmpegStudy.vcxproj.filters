@@ -76,6 +76,9 @@
     <Filter Include="parseFlvDlg">
       <UniqueIdentifier>{17348491-994d-4318-9f35-68cd705ff6a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="libs\amf">
+      <UniqueIdentifier>{ce56bc80-bf00-41e2-bb9d-9261f280fddd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ffmpegStudy.h">
@@ -746,6 +749,9 @@
     </ClInclude>
     <ClInclude Include="parseFlvDlg\parseFlvDlg.h">
       <Filter>parseFlvDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\amf\amf.h">
+      <Filter>libs\amf</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
