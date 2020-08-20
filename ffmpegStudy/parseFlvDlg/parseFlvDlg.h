@@ -32,6 +32,7 @@ public:
     unsigned int reverseInt(unsigned char *bytes);
     void appendTagInfo(unsigned int previousSize, unsigned char tagType, unsigned int dataSize, unsigned int timeStamp,
                        unsigned char extend, unsigned int streamId, unsigned char firstByte);
+    void appendScriptInfo(unsigned int dataSize);
     CMFCEditBrowseCtrl m_browse;
     CListCtrl m_list;
     CEdit m_edit;

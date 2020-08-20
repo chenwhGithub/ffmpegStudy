@@ -165,7 +165,7 @@ void CparseFlvDlg::parseFlv(CString flvFileName)
              break;
          case TAG_TYPE_SCRIPT:
              appendTagInfo(previousSize, tagType, dataSize, timeStamp, extend, streamId, 0);
-             fseek(m_fpFlv, dataSize, SEEK_CUR);
+             appendScriptInfo(dataSize);
              break;
          default:
              fseek(m_fpFlv, dataSize, SEEK_CUR);
@@ -294,3 +294,124 @@ void CparseFlvDlg::appendTagInfo(unsigned int previousSize, unsigned char tagTyp
     m_list.SetItemText(m_tagNum, 6, strStreamId);
     m_list.SetItemText(m_tagNum, 7, strFirstByte);
 }
+
+
+struct stString
+{
+    unsigned char *strData;
+    unsigned int strLen;
+};
+
+unsigned int decodeUint16(unsigned char *data)
+{
+    unsigned int ret = (data[0] << 8) | data[1];
+    return ret;
+}
+
+unsigned int decodeUint32(unsigned char *data)
+{
+    unsigned int ret = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
+    return ret;
+}
+
+double decodeNumber(unsigned char *data)
+{
+    double ret;
+    unsigned char *ch = (unsigned char *)&ret;
+    ch[0] = data[7];
+    ch[1] = data[6];
+    ch[2] = data[5];
+    ch[3] = data[4];
+    ch[4] = data[3];
+    ch[5] = data[2];
+    ch[6] = data[1];
+    ch[7] = data[0];
+
+    return ret;
+}
+
+unsigned int decodeBool(unsigned char *data)
+{
+    return (data[0] != 0);
+}
+
+stString decodeString(unsigned char *data)
+{
+    stString ret;
+    ret.strLen = decodeUint16(data);
+    ret.strData = data + 2;
+
+    return ret;
+}
+
+
+void CparseFlvDlg::appendScriptInfo(unsigned int dataSize)
+{
+    m_editString += CString("**************** Script ****************\r\n");
+
+    unsigned char *data = new unsigned char[dataSize];
+    fread(data, dataSize, 1, m_fpFlv);
+
+    unsigned char *ptrDataStart = data;
+    unsigned char *ptrDataEnd = data + dataSize;
+    unsigned char dataType = 0;
+    CString strTemp;
+    double d;
+    unsigned int b;
+    stString str;
+    unsigned int strLen;
+    unsigned int num;
+    while (ptrDataStart < ptrDataEnd)
+    {
+        dataType = ptrDataStart[0];
+        ptrDataStart += 1;
+        switch (dataType)
+        {
+        case 2: // string
+            strLen = decodeUint16(ptrDataStart);
+            ptrDataStart += 2;
+            m_editString += CString((const char*)ptrDataStart, strLen) + CString("\r\n");
+            ptrDataStart += strLen;
+            break;
+        case 8: // ECMA_ARRAY
+            num = decodeUint32(ptrDataStart); // num might not right, end with '00 00 09'
+            ptrDataStart += 4;
+            while ((ptrDataStart[0] != 0) || (ptrDataStart[1] != 0) || (ptrDataStart[2] != 0x09))
+            {
+                stString key = decodeString(ptrDataStart);
+                m_editString += CString((const char*)key.strData, key.strLen);
+                ptrDataStart += (2 + key.strLen);
+                dataType = ptrDataStart[0];
+                ptrDataStart += 1;
+                switch (dataType)
+                {
+                case 0: // number
+                    d = decodeNumber(ptrDataStart);
+                    strTemp.Format(_T(" : %.0f\r\n"), d);
+                    m_editString += strTemp;
+                    ptrDataStart += 8;
+                    break;
+                case 1: // bool
+                    b = decodeBool(ptrDataStart);
+                    m_editString += (b ? CString(" : True\r\n") : CString(" : False\r\n"));
+                    ptrDataStart += 1;
+                    break;
+                case 2: // string
+                    str = decodeString(ptrDataStart);
+                    m_editString += CString(" : ") + CString((const char*)str.strData, str.strLen) + CString("\r\n");
+                    ptrDataStart += (2 + str.strLen);
+                    break;
+                default:
+                    break;
+                }
+            }
+            break;
+        default:
+            break;
+        }
+    }
+
+    delete []data;
+}
+
+
