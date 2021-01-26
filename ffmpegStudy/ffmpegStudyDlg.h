@@ -37,4 +37,5 @@ public:
     afx_msg void OnClickedButtonFfmpegaudio();
     afx_msg void OnClickedButtonFfmpegFfplay();
     afx_msg void OnClickedButtonParseflv();
+    afx_msg void OnClickedButtonYuvshow();
 };

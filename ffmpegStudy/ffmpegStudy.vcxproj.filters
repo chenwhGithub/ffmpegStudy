@@ -79,6 +79,9 @@
     <Filter Include="libs\amf">
       <UniqueIdentifier>{ce56bc80-bf00-41e2-bb9d-9261f280fddd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="yuvShowDlg">
+      <UniqueIdentifier>{a022516e-7b2b-44bc-8e60-a31b4c422d94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ffmpegStudy.h">
@@ -753,6 +756,9 @@
     <ClInclude Include="libs\amf\amf.h">
       <Filter>libs\amf</Filter>
     </ClInclude>
+    <ClInclude Include="yuvShowDlg\yuvShowDlg.h">
+      <Filter>yuvShowDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ffmpegStudy.cpp">
@@ -784,6 +790,9 @@
     </ClCompile>
     <ClCompile Include="parseFlvDlg\parseFlvDlg.cpp">
       <Filter>parseFlvDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="yuvShowDlg\yuvShowDlg.cpp">
+      <Filter>yuvShowDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

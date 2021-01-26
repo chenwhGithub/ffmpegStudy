@@ -20,10 +20,12 @@ extern "C" {
 #include "SDL.h"
 
 
-#define SFM_REFRESH_EVENT  (SDL_USEREVENT + 1)
-#define SFM_BREAK_EVENT    (SDL_USEREVENT + 2)
+#define SFM_REFRESH_EVENT   (SDL_USEREVENT + 1)
+#define SFM_BREAK_EVENT     (SDL_USEREVENT + 2)
 
-int thread_exit = 0;
+#define OUTPUT_YUV420P      0 // 解码后是否保存 YUV 信息到文件
+
+static int thread_exit = 0;
 
 
 // CffmpegSdlVideoDlg dialog
@@ -53,7 +55,7 @@ END_MESSAGE_MAP()
 
 
 // CffmpegSdlVideoDlg message handlers
-int threadFuncFresh(void *opaque)
+static int threadFuncFresh(void *opaque)
 {
     thread_exit = 0;
     SDL_Event event;
@@ -72,7 +74,7 @@ int threadFuncFresh(void *opaque)
 }
 
 
-UINT threadFuncPlay(LPVOID lpParam)
+static UINT threadFuncPlay(LPVOID lpParam)
 {
     CffmpegSdlVideoDlg *dlg = (CffmpegSdlVideoDlg *)lpParam;
 
@@ -86,22 +88,27 @@ UINT threadFuncPlay(LPVOID lpParam)
     int videoIndex, ret, gotPicture;
 
     //------------SDL----------------
-    int screen_w, screen_h;
     SDL_Window *screen;             // 显示窗口
     SDL_Renderer* sdlRenderer;      // 渲染器
     SDL_Texture* sdlTexture;        // 纹理
     SDL_Rect sdlRect;
     SDL_Event event;
     struct SwsContext* imgConvertCtx;
+    int frameWidth, frameHeight;
 
     CString strFileName;
     char * chFileName;
-    dlg->m_browse.GetWindowTextW(strFileName); // 输入 flv, mp4, mov 等带封装的视频文件，进行 解封装->解码->显示
+    // 输入 flv, mp4, mov 等带封装的视频文件，进行 解封装->解码->显示 https://blog.csdn.net/leixiaohua1020/article/details/38868499
+    dlg->m_browse.GetWindowTextW(strFileName);
     if (strFileName.IsEmpty()) {
         return 1;
     }
     USES_CONVERSION;
     chFileName = W2A(strFileName);
+
+    #if OUTPUT_YUV420P
+        FILE* fp_yuv = fopen("Forrest_Gump_IMAX_640_352.yuv", "wb+");
+    #endif
 
     // av_register_all();
     avformat_network_init(); // 网络组件全局初始化
@@ -172,7 +179,7 @@ UINT threadFuncPlay(LPVOID lpParam)
 
     // 创建显示窗口，可以是弹出窗口，也可以是 MFC 控件(必须在新线程中)
     // screen = SDL_CreateWindow("Simplest ffmpeg player", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-    //                           screen_w, screen_h, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    //                           frameWidth, frameHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     screen = SDL_CreateWindowFrom((void *)(dlg->GetDlgItem(IDC_STATIC_SHOW)->GetSafeHwnd()));
 
     // 创建渲染器
@@ -183,14 +190,14 @@ UINT threadFuncPlay(LPVOID lpParam)
     // 创建纹理
     sdlTexture = SDL_CreateTexture(sdlRenderer, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STREAMING, pCodecCtx->width, pCodecCtx->height);
 
-    // 保存视频的实际宽高
-    screen_w = pCodecCtx->width;
-    screen_h = pCodecCtx->height;
+    // 保存视频帧的宽和高
+    frameWidth = pCodecCtx->width;
+    frameHeight = pCodecCtx->height;
 
     sdlRect.x = 0;
     sdlRect.y = 0;
-    sdlRect.w = screen_w;
-    sdlRect.h = screen_h;
+    sdlRect.w = frameWidth;
+    sdlRect.h = frameHeight;
 
     SDL_CreateThread(threadFuncFresh, NULL, NULL);
 
@@ -218,7 +225,16 @@ UINT threadFuncPlay(LPVOID lpParam)
                 return 1;
             }
             if (!gotPicture) {
+                // 解码后的 pFrame 包含无效数据，以第1行亮度数据 pFrame->data[0] 为例，0-479存储的是有效数据，而480-511存储的是无效数据，因此需要使用 sw_scale() 进行转换去除无效数据
                 sws_scale(imgConvertCtx, (const unsigned char* const*)pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameYUV->data, pFrameYUV->linesize);
+
+                #if OUTPUT_YUV420P
+                    int y_size = pCodecCtx->width * pCodecCtx->height;
+                    fwrite(pFrameYUV->data[0], 1, y_size, fp_yuv);     // Y
+                    fwrite(pFrameYUV->data[1], 1, y_size/4, fp_yuv);   // U
+                    fwrite(pFrameYUV->data[2], 1, y_size/4, fp_yuv);   // V
+                #endif
+
                 SDL_UpdateTexture(sdlTexture, NULL, pFrameYUV->data[0], pFrameYUV->linesize[0]); // 设置纹理数据
                 SDL_RenderClear(sdlRenderer); // 清理渲染器
                 // SDL_RenderCopy(sdlRenderer, sdlTexture, NULL, NULL);
@@ -236,6 +252,10 @@ UINT threadFuncPlay(LPVOID lpParam)
             thread_exit = 1;
         }
     }
+
+    #if OUTPUT_YUV420P
+        fclose(fp_yuv);
+    #endif
 
     sws_freeContext(imgConvertCtx);
     av_frame_free(&pFrameYUV);
