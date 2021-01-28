@@ -10,6 +10,8 @@
 #define IDD_DIALOG_FFMPEGSDL_FFPLAY     133
 #define IDD_DIALOG_PARSEFLV             134
 #define IDD_DIALOG_YUVSHOW              135
+#define IDD_DIALOG_YUVSHOW1             136
+#define IDD_DIALOG_DECODESHOW           136
 #define IDC_BUTTON_PARSEH264            1000
 #define IDC_MFCEDITBROWSE               1001
 #define IDC_BUTTON_PARSEAAC             1001
@@ -21,6 +23,7 @@
 #define IDC_BUTTON_PLAY_VIDEO           1005
 #define IDC_BUTTON_YUVSHOW              1005
 #define IDC_STATIC_SHOW                 1006
+#define IDC_BUTTON_DECODESHOW           1006
 #define IDC_BUTTON_PLAY_AUDIO           1007
 #define IDC_BUTTON_SEEKPREV             1008
 #define IDC_BUTTON_STARTPAUSE           1009
@@ -33,7 +36,6 @@
 #define IDC_BUTTON_PARSEFLV             1016
 #define IDC_BUTTON_PLAY                 1022
 #define IDC_EDIT_WIDTH                  1023
-#define IDC_EDIT_WIDTH2                 1024
 #define IDC_EDIT_HEIGHT                 1024
 
 // Next default values for new objects

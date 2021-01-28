@@ -82,6 +82,9 @@
     <Filter Include="yuvShowDlg">
       <UniqueIdentifier>{a022516e-7b2b-44bc-8e60-a31b4c422d94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="decodeShowDlg">
+      <UniqueIdentifier>{753d002e-c64d-42ef-b620-5fc957cbbec4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ffmpegStudy.h">
@@ -759,6 +762,9 @@
     <ClInclude Include="yuvShowDlg\yuvShowDlg.h">
       <Filter>yuvShowDlg</Filter>
     </ClInclude>
+    <ClInclude Include="decodeShowDlg\decodeShowDlg.h">
+      <Filter>decodeShowDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ffmpegStudy.cpp">
@@ -793,6 +799,9 @@
     </ClCompile>
     <ClCompile Include="yuvShowDlg\yuvShowDlg.cpp">
       <Filter>yuvShowDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="decodeShowDlg\decodeShowDlg.cpp">
+      <Filter>decodeShowDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

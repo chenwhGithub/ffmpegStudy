@@ -94,7 +94,7 @@ static UINT threadFuncPlay(LPVOID lpParam)
     SDL_Rect sdlRect;
     SDL_Event event;
     struct SwsContext* imgConvertCtx;
-    int frameWidth, frameHeight;
+    int frameWidth, frameHeight, frameSize;
 
     CString strFileName;
     char * chFileName;
@@ -106,9 +106,9 @@ static UINT threadFuncPlay(LPVOID lpParam)
     USES_CONVERSION;
     chFileName = W2A(strFileName);
 
-    #if OUTPUT_YUV420P
-        FILE* fp_yuv = fopen("Forrest_Gump_IMAX_640_352.yuv", "wb+");
-    #endif
+#if OUTPUT_YUV420P
+    FILE* fp_yuv = fopen("Forrest_Gump_IMAX_640_352.yuv", "wb+");
+#endif
 
     // av_register_all();
     avformat_network_init(); // 网络组件全局初始化
@@ -193,6 +193,8 @@ static UINT threadFuncPlay(LPVOID lpParam)
     // 保存视频帧的宽和高
     frameWidth = pCodecCtx->width;
     frameHeight = pCodecCtx->height;
+    // YUV420P, Y:w*h  U:w*h/4  V:w*h/4
+    frameSize = frameWidth * frameHeight;
 
     sdlRect.x = 0;
     sdlRect.y = 0;
@@ -208,9 +210,9 @@ static UINT threadFuncPlay(LPVOID lpParam)
         {
             while (1) // 循环读取找到一帧压缩的视频数据
             {
-                if (av_read_frame(pFormatCtx, packet) < 0) {
+                if (av_read_frame(pFormatCtx, packet) < 0) { // 0 for OK, < 0 for error or end of file
                     thread_exit = 1;
-                    // break; // not needed ?
+                    break;
                 }
 
                 if (packet->stream_index == videoIndex)
@@ -228,12 +230,11 @@ static UINT threadFuncPlay(LPVOID lpParam)
                 // 解码后的 pFrame 包含无效数据，以第1行亮度数据 pFrame->data[0] 为例，0-479存储的是有效数据，而480-511存储的是无效数据，因此需要使用 sw_scale() 进行转换去除无效数据
                 sws_scale(imgConvertCtx, (const unsigned char* const*)pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameYUV->data, pFrameYUV->linesize);
 
-                #if OUTPUT_YUV420P
-                    int y_size = pCodecCtx->width * pCodecCtx->height;
-                    fwrite(pFrameYUV->data[0], 1, y_size, fp_yuv);     // Y
-                    fwrite(pFrameYUV->data[1], 1, y_size/4, fp_yuv);   // U
-                    fwrite(pFrameYUV->data[2], 1, y_size/4, fp_yuv);   // V
-                #endif
+#if OUTPUT_YUV420P
+                fwrite(pFrameYUV->data[0], 1, frameSize, fp_yuv);     // Y
+                fwrite(pFrameYUV->data[1], 1, frameSize/4, fp_yuv);   // U
+                fwrite(pFrameYUV->data[2], 1, frameSize/4, fp_yuv);   // V
+#endif
 
                 SDL_UpdateTexture(sdlTexture, NULL, pFrameYUV->data[0], pFrameYUV->linesize[0]); // 设置纹理数据
                 SDL_RenderClear(sdlRenderer); // 清理渲染器
@@ -253,9 +254,9 @@ static UINT threadFuncPlay(LPVOID lpParam)
         }
     }
 
-    #if OUTPUT_YUV420P
-        fclose(fp_yuv);
-    #endif
+#if OUTPUT_YUV420P
+    fclose(fp_yuv);
+#endif
 
     sws_freeContext(imgConvertCtx);
     av_frame_free(&pFrameYUV);

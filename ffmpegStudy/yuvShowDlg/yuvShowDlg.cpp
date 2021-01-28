@@ -145,6 +145,7 @@ static UINT threadFuncPlay(LPVOID lpParam)
     }
 
     delete[] buffer;
+    fclose(fp);
     SDL_Quit();
     dlg->GetDlgItem(IDC_STATIC_SHOW)->ShowWindow(SW_SHOWNORMAL); // SDL Hide Window When it finished, so involved after SDL_Quit()
 

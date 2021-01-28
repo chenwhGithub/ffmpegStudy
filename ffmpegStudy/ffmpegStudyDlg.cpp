@@ -13,6 +13,7 @@
 #include "ffmpegSdlAudioDlg/ffmpegSdlAudioDlg.h"
 #include "ffplayDlg/ffplayDlg.h"
 #include "yuvShowDlg/yuvShowDlg.h"
+#include "decodeShowDlg/decodeShowDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -44,6 +45,7 @@ BEGIN_MESSAGE_MAP(CffmpegStudyDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BUTTON_FFMPEGFFPLAY, &CffmpegStudyDlg::OnClickedButtonFfmpegFfplay)
     ON_BN_CLICKED(IDC_BUTTON_PARSEFLV, &CffmpegStudyDlg::OnClickedButtonParseflv)
     ON_BN_CLICKED(IDC_BUTTON_YUVSHOW, &CffmpegStudyDlg::OnClickedButtonYuvshow)
+    ON_BN_CLICKED(IDC_BUTTON_DECODESHOW, &CffmpegStudyDlg::OnClickedButtonDecodeshow)
 END_MESSAGE_MAP()
 
 
@@ -155,5 +157,13 @@ void CffmpegStudyDlg::OnClickedButtonYuvshow()
 {
     // TODO: Add your control notification handler code here
     CYuvShowDlg dlg;
+    dlg.DoModal();
+}
+
+
+void CffmpegStudyDlg::OnClickedButtonDecodeshow()
+{
+    // TODO: Add your control notification handler code here
+    CDecodeShowDlg dlg;
     dlg.DoModal();
 }
