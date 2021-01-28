@@ -20,10 +20,11 @@ extern "C" {
 #include "SDL.h"
 
 
-#define SFM_REFRESH_EVENT   (SDL_USEREVENT + 1)
-#define SFM_BREAK_EVENT     (SDL_USEREVENT + 2)
+#define SFM_REFRESH_EVENT       (SDL_USEREVENT + 1)
+#define SFM_BREAK_EVENT         (SDL_USEREVENT + 2)
 
-#define OUTPUT_YUV420P      0 // 解码后是否保存 YUV 信息到文件
+#define OUTPUT_YUV420P          1 // 解码后是否保存 YUV 文件
+#define OUTPUT_YUV_FILENAME     "temp_output.yuv"
 
 static int thread_exit = 0;
 
@@ -81,11 +82,8 @@ static UINT threadFuncPlay(LPVOID lpParam)
     AVFormatContext *pFormatCtx;    // 封装相关上下文结构体，也是统领全局的结构体，保存了文件封装格式相关信息
     AVCodecContext *pCodecCtx;      // 编码相关上下文结构体，保存了文件编解码相关信息
     AVCodec *pCodec;                // 文件具体编码方式对应的那一种编解码器结构体
-    AVFrame *pFrame, *pFrameYUV;    // 存储解码后的一帧数据
+    AVFrame *pFrame;                // 存储解码后的一帧数据
     AVPacket *packet;               // 存储解码前的一帧数据
-    unsigned char *outBuffer;
-    unsigned int i;
-    int videoIndex, ret, gotPicture;
 
     //------------SDL----------------
     SDL_Window *screen;             // 显示窗口
@@ -93,8 +91,9 @@ static UINT threadFuncPlay(LPVOID lpParam)
     SDL_Texture* sdlTexture;        // 纹理
     SDL_Rect sdlRect;
     SDL_Event event;
-    struct SwsContext* imgConvertCtx;
-    int frameWidth, frameHeight, frameSize;
+
+    unsigned int i;
+    int videoIndex, ret, gotPicture, frameWidth, frameHeight, frameSize, frameBytes;
 
     CString strFileName;
     char * chFileName;
@@ -107,11 +106,11 @@ static UINT threadFuncPlay(LPVOID lpParam)
     chFileName = W2A(strFileName);
 
 #if OUTPUT_YUV420P
-    FILE* fp_yuv = fopen("Forrest_Gump_IMAX_640_352.yuv", "wb+");
+    FILE* fp_yuv = fopen(OUTPUT_YUV_FILENAME, "wb");
 #endif
 
-    // av_register_all();
-    avformat_network_init(); // 网络组件全局初始化
+    // 网络组件初始化
+    avformat_network_init();
 
     // 打开输入的音视频文件，填充封装相关上下文结构体 pFormatCtx
     pFormatCtx = avformat_alloc_context();
@@ -159,17 +158,20 @@ static UINT threadFuncPlay(LPVOID lpParam)
 
     // 创建 AVFrame 和 AVPacket，用来保存解码前后的数据
     pFrame = av_frame_alloc();
-    pFrameYUV = av_frame_alloc();
-    packet = (AVPacket *)av_malloc(sizeof(AVPacket));
+    packet = av_packet_alloc();
 
-    // 分配存储一帧图像 YUV 信息所需 buffer
-    outBuffer = (unsigned char *)av_malloc(av_image_get_buffer_size(AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height, 1));
-    // 根据指定的图像参数和提供的数组设置数据指针和线条，解码后的一帧数据填充到 buffer
-    av_image_fill_arrays(pFrameYUV->data, pFrameYUV->linesize, outBuffer, AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height, 1);
+    // 保存视频帧的宽和高
+    frameWidth = pCodecCtx->width;
+    frameHeight = pCodecCtx->height;
+    // YUV420P, Y:w*h  U:w*h/4  V:w*h/4
+    frameSize = frameWidth * frameHeight;
+    frameBytes = frameWidth * frameHeight * 12 / 8;
+    unsigned char* buffer = new unsigned char[frameBytes];
 
-    // 初始化 SwsContext
-    imgConvertCtx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt,
-                                   pCodecCtx->width, pCodecCtx->height, AV_PIX_FMT_YUV420P, SWS_BICUBIC, NULL, NULL, NULL);
+    sdlRect.x = 0;
+    sdlRect.y = 0;
+    sdlRect.w = frameWidth;
+    sdlRect.h = frameHeight;
 
     // 初始化 SDL 系统
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
@@ -188,18 +190,7 @@ static UINT threadFuncPlay(LPVOID lpParam)
     // IYUV: Y + U + V  (3 planes)
     // YV12: Y + V + U  (3 planes)
     // 创建纹理
-    sdlTexture = SDL_CreateTexture(sdlRenderer, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STREAMING, pCodecCtx->width, pCodecCtx->height);
-
-    // 保存视频帧的宽和高
-    frameWidth = pCodecCtx->width;
-    frameHeight = pCodecCtx->height;
-    // YUV420P, Y:w*h  U:w*h/4  V:w*h/4
-    frameSize = frameWidth * frameHeight;
-
-    sdlRect.x = 0;
-    sdlRect.y = 0;
-    sdlRect.w = frameWidth;
-    sdlRect.h = frameHeight;
+    sdlTexture = SDL_CreateTexture(sdlRenderer, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STREAMING, frameWidth, frameHeight);
 
     SDL_CreateThread(threadFuncFresh, NULL, NULL);
 
@@ -227,22 +218,20 @@ static UINT threadFuncPlay(LPVOID lpParam)
                 return 1;
             }
             if (!gotPicture) {
-                // 解码后的 pFrame 包含无效数据，以第1行亮度数据 pFrame->data[0] 为例，0-479存储的是有效数据，而480-511存储的是无效数据，因此需要使用 sw_scale() 进行转换去除无效数据
-                sws_scale(imgConvertCtx, (const unsigned char* const*)pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameYUV->data, pFrameYUV->linesize);
-
 #if OUTPUT_YUV420P
-                fwrite(pFrameYUV->data[0], 1, frameSize, fp_yuv);     // Y
-                fwrite(pFrameYUV->data[1], 1, frameSize/4, fp_yuv);   // U
-                fwrite(pFrameYUV->data[2], 1, frameSize/4, fp_yuv);   // V
+                fwrite(pFrame->data[0], 1, frameSize, fp_yuv);     // Y
+                fwrite(pFrame->data[1], 1, frameSize/4, fp_yuv);   // U
+                fwrite(pFrame->data[2], 1, frameSize/4, fp_yuv);   // V
 #endif
-
-                SDL_UpdateTexture(sdlTexture, NULL, pFrameYUV->data[0], pFrameYUV->linesize[0]); // 设置纹理数据
+                memcpy(buffer, pFrame->data[0], frameSize);
+                memcpy(buffer+frameSize, pFrame->data[1], frameSize/4);
+                memcpy(buffer+frameSize+frameSize/4, pFrame->data[2], frameSize/4);
+                SDL_UpdateTexture(sdlTexture, NULL, buffer, frameWidth); // 设置纹理数据
                 SDL_RenderClear(sdlRenderer); // 清理渲染器
                 // SDL_RenderCopy(sdlRenderer, sdlTexture, NULL, NULL);
                 SDL_RenderCopy(sdlRenderer, sdlTexture, &sdlRect, &sdlRect); // 将纹理数据 copy 到渲染器
                 SDL_RenderPresent(sdlRenderer); // 渲染器显示
             }
-            av_packet_unref(packet);
         }
         else if (event.type == SFM_BREAK_EVENT)
         {
@@ -258,9 +247,9 @@ static UINT threadFuncPlay(LPVOID lpParam)
     fclose(fp_yuv);
 #endif
 
-    sws_freeContext(imgConvertCtx);
-    av_frame_free(&pFrameYUV);
+    delete[] buffer;
     av_frame_free(&pFrame);
+    av_packet_free(&packet);
     avcodec_close(pCodecCtx);
     avformat_close_input(&pFormatCtx);
     SDL_Quit();
