@@ -11,6 +11,7 @@
 #define IDD_DIALOG_PARSEFLV             134
 #define IDD_DIALOG_YUVSHOW              135
 #define IDD_DIALOG_DECODESHOW           136
+#define IDD_DIALOG_PCMSHOW              137
 #define IDC_BUTTON_PARSEH264            1000
 #define IDC_MFCEDITBROWSE               1001
 #define IDC_BUTTON_PARSEAAC             1001
@@ -25,8 +26,8 @@
 #define IDC_BUTTON_DECODESHOW           1006
 #define IDC_BUTTON_PLAY_AUDIO           1007
 #define IDC_BUTTON_SEEKPREV             1008
-#define IDC_BUTTON_YUVSHOW2             1008
 #define IDC_BUTTON_YUVSHOWAUDIO         1008
+#define IDC_BUTTON_PCMSHOW              1008
 #define IDC_BUTTON_STARTPAUSE           1009
 #define IDC_BUTTON_DECODESHOWAUDIO      1009
 #define IDC_BUTTON_SEEKNEXT             1010
@@ -39,6 +40,9 @@
 #define IDC_BUTTON_PLAY                 1022
 #define IDC_EDIT_WIDTH                  1023
 #define IDC_EDIT_HEIGHT                 1024
+#define IDC_EDIT_SAMPLERATE             1028
+#define IDC_EDIT_CHANNEL                1029
+#define IDC_COMBO_SAMPLEFORMAT          1030
 
 // Next default values for new objects
 // 
@@ -46,7 +50,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        133
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1024
+#define _APS_NEXT_CONTROL_VALUE         1031
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -28,7 +28,7 @@ static Uint8 *audio_pos;        // 采样数据缓存区当前播放的位置
 static int sampleRate, sampleBytes, channels, frameSize;
 
 // 音频设备需要更多数据的时候会调用该回调函数，应用程序被动推送数据到音频设备
-void fill_audio(void *udata, Uint8 *stream, int len)
+static void fill_audio(void *udata, Uint8 *stream, int len)
 {
     SDL_memset(stream, 0, len);
     if (audio_len == 0)

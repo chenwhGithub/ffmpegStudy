@@ -420,6 +420,7 @@
     <ClInclude Include="parseFlvDlg\parseFlvDlg.h" />
     <ClInclude Include="parseH264Dlg\parseH264Dlg.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="pcmShowDlg\pcmShowDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="yuvShowDlg\yuvShowDlg.h" />
@@ -441,6 +442,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="pcmShowDlg\pcmShowDlg.cpp" />
     <ClCompile Include="yuvShowDlg\yuvShowDlg.cpp" />
   </ItemGroup>
   <ItemGroup>

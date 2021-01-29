@@ -14,6 +14,7 @@
 #include "ffplayDlg/ffplayDlg.h"
 #include "yuvShowDlg/yuvShowDlg.h"
 #include "decodeShowDlg/decodeShowDlg.h"
+#include "pcmShowDlg/pcmShowDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -46,6 +47,7 @@ BEGIN_MESSAGE_MAP(CffmpegStudyDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BUTTON_PARSEFLV, &CffmpegStudyDlg::OnClickedButtonParseflv)
     ON_BN_CLICKED(IDC_BUTTON_YUVSHOW, &CffmpegStudyDlg::OnClickedButtonYuvshow)
     ON_BN_CLICKED(IDC_BUTTON_DECODESHOW, &CffmpegStudyDlg::OnClickedButtonDecodeshow)
+    ON_BN_CLICKED(IDC_BUTTON_PCMSHOW, &CffmpegStudyDlg::OnClickedButtonPcmshow)
 END_MESSAGE_MAP()
 
 
@@ -165,5 +167,13 @@ void CffmpegStudyDlg::OnClickedButtonDecodeshow()
 {
     // TODO: Add your control notification handler code here
     CDecodeShowDlg dlg;
+    dlg.DoModal();
+}
+
+
+void CffmpegStudyDlg::OnClickedButtonPcmshow()
+{
+    // TODO: Add your control notification handler code here
+    CPcmShowDlg dlg;
     dlg.DoModal();
 }
