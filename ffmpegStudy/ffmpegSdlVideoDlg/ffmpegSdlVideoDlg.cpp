@@ -97,7 +97,7 @@ static UINT threadFuncPlay(LPVOID lpParam)
 
     CString strFileName;
     char * chFileName;
-    // 输入 flv, mp4, mov 等带封装的视频文件，进行 解封装->解码->显示 https://blog.csdn.net/leixiaohua1020/article/details/38868499
+    // 输入 flv, mp4, mov, h264/hevc 等带封装的视频文件，进行 解封装->解码->显示 https://blog.csdn.net/leixiaohua1020/article/details/38868499
     dlg->m_browse.GetWindowTextW(strFileName);
     if (strFileName.IsEmpty()) {
         return 1;

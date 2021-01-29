@@ -88,6 +88,9 @@
     <Filter Include="decodeShowVideoDlg">
       <UniqueIdentifier>{753d002e-c64d-42ef-b620-5fc957cbbec4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="decodeShowAudioDlg">
+      <UniqueIdentifier>{1b3fb43d-3055-43a5-b02a-c22ac7617a51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ffmpegStudy.h">
@@ -771,6 +774,9 @@
     <ClInclude Include="decodeShowVideoDlg\decodeShowVideoDlg.h">
       <Filter>decodeShowVideoDlg</Filter>
     </ClInclude>
+    <ClInclude Include="decodeShowAudioDlg\decodeShowAudioDlg.h">
+      <Filter>decodeShowAudioDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ffmpegStudy.cpp">
@@ -811,6 +817,9 @@
     </ClCompile>
     <ClCompile Include="decodeShowVideoDlg\decodeShowVideoDlg.cpp">
       <Filter>decodeShowVideoDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="decodeShowAudioDlg\decodeShowAudioDlg.cpp">
+      <Filter>decodeShowAudioDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -119,7 +119,7 @@ static UINT threadFuncPlay(LPVOID lpParam)
         }
     }
     if (audioIndex == -1) {
-        AfxMessageBox(_T("Didn't find a audio stream."));
+        AfxMessageBox(_T("Could not found a audio stream."));
         return 1;
     }
 

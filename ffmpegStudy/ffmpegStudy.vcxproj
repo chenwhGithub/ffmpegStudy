@@ -197,6 +197,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="decodeShowAudioDlg\decodeShowAudioDlg.h" />
     <ClInclude Include="decodeShowVideoDlg\decodeShowVideoDlg.h" />
     <ClInclude Include="ffmpegSdlAudioDlg\ffmpegSdlAudioDlg.h" />
     <ClInclude Include="ffmpegSdlVideoDlg\ffmpegSdlVideoDlg.h" />
@@ -426,6 +427,7 @@
     <ClInclude Include="yuvShowDlg\yuvShowDlg.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="decodeShowAudioDlg\decodeShowAudioDlg.cpp" />
     <ClCompile Include="decodeShowVideoDlg\decodeShowVideoDlg.cpp" />
     <ClCompile Include="ffmpegSdlAudioDlg\ffmpegSdlAudioDlg.cpp" />
     <ClCompile Include="ffmpegSdlVideoDlg\ffmpegSdlVideoDlg.cpp" />
