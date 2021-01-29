@@ -1,19 +1,19 @@
 #pragma once
 
 
-// CDecodeShowDlg dialog
+// CDecodeShowVideoDlg dialog
 
-class CDecodeShowDlg : public CDialogEx
+class CDecodeShowVideoDlg : public CDialogEx
 {
-	DECLARE_DYNAMIC(CDecodeShowDlg)
+	DECLARE_DYNAMIC(CDecodeShowVideoDlg)
 
 public:
-	CDecodeShowDlg(CWnd* pParent = nullptr);   // standard constructor
-	virtual ~CDecodeShowDlg();
+    CDecodeShowVideoDlg(CWnd* pParent = nullptr);   // standard constructor
+	virtual ~CDecodeShowVideoDlg();
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_DIALOG_DECODESHOW };
+	enum { IDD = IDD_DIALOG_DECODESHOWVIDEO };
 #endif
 
 protected:

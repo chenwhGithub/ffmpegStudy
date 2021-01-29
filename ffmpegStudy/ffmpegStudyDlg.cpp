@@ -13,7 +13,7 @@
 #include "ffmpegSdlAudioDlg/ffmpegSdlAudioDlg.h"
 #include "ffplayDlg/ffplayDlg.h"
 #include "yuvShowDlg/yuvShowDlg.h"
-#include "decodeShowDlg/decodeShowDlg.h"
+#include "decodeShowVideoDlg/decodeShowVideoDlg.h"
 #include "pcmShowDlg/pcmShowDlg.h"
 
 #ifdef _DEBUG
@@ -166,7 +166,7 @@ void CffmpegStudyDlg::OnClickedButtonYuvshow()
 void CffmpegStudyDlg::OnClickedButtonDecodeshow()
 {
     // TODO: Add your control notification handler code here
-    CDecodeShowDlg dlg;
+    CDecodeShowVideoDlg dlg;
     dlg.DoModal();
 }
 

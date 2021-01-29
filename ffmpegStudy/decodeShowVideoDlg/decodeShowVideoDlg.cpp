@@ -1,9 +1,9 @@
-// decodeShowDlg.cpp : implementation file
+// decodeShowVideoDlg.cpp : implementation file
 //
 
 #include "../pch.h"
 #include "../ffmpegStudy.h"
-#include "decodeShowDlg.h"
+#include "decodeShowVideoDlg.h"
 #include "afxdialogex.h"
 
 #ifdef __cplusplus
@@ -23,34 +23,34 @@ extern "C" {
 static int frameWidth = 0, frameHeight = 0;
 static int thread_exit = 0;
 
-// CDecodeShowDlg dialog
+// CDecodeShowVideoDlg dialog
 
-IMPLEMENT_DYNAMIC(CDecodeShowDlg, CDialogEx)
+IMPLEMENT_DYNAMIC(CDecodeShowVideoDlg, CDialogEx)
 
-CDecodeShowDlg::CDecodeShowDlg(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_DIALOG_DECODESHOW, pParent)
+CDecodeShowVideoDlg::CDecodeShowVideoDlg(CWnd* pParent /*=nullptr*/)
+	: CDialogEx(IDD_DIALOG_DECODESHOWVIDEO, pParent)
 {
 
 }
 
-CDecodeShowDlg::~CDecodeShowDlg()
+CDecodeShowVideoDlg::~CDecodeShowVideoDlg()
 {
 }
 
-void CDecodeShowDlg::DoDataExchange(CDataExchange* pDX)
+void CDecodeShowVideoDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialogEx::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_MFCEDITBROWSE, m_browse);
 }
 
 
-BEGIN_MESSAGE_MAP(CDecodeShowDlg, CDialogEx)
-    ON_BN_CLICKED(IDC_BUTTON_PLAY, &CDecodeShowDlg::OnClickedButtonPlay)
+BEGIN_MESSAGE_MAP(CDecodeShowVideoDlg, CDialogEx)
+    ON_BN_CLICKED(IDC_BUTTON_PLAY, &CDecodeShowVideoDlg::OnClickedButtonPlay)
 END_MESSAGE_MAP()
 
 
-// CDecodeShowDlg message handlers
-int CDecodeShowDlg::decodeH264ToYuv(const char* inFileName, const char* outFileName)
+// CDecodeShowVideoDlg message handlers
+int CDecodeShowVideoDlg::decodeH264ToYuv(const char* inFileName, const char* outFileName)
 {
     AVCodecContext *pCodecCtx;      // 编码相关上下文结构体，保存了文件编解码相关信息
     AVCodec *pCodec;                // 文件具体编码方式对应的那一种编解码器结构体
@@ -173,7 +173,7 @@ static int threadFuncFresh(void *opaque)
 
 static UINT threadFuncPlay(LPVOID lpParam)
 {
-    CDecodeShowDlg *dlg = (CDecodeShowDlg*)lpParam;
+    CDecodeShowVideoDlg *dlg = (CDecodeShowVideoDlg*)lpParam;
 
     //------------SDL----------------
     SDL_Window *screen;             // 显示窗口
@@ -253,7 +253,7 @@ static UINT threadFuncPlay(LPVOID lpParam)
 }
 
 
-void CDecodeShowDlg::OnClickedButtonPlay()
+void CDecodeShowVideoDlg::OnClickedButtonPlay()
 {
     // TODO: Add your control notification handler code here
     CString strInFileName;
