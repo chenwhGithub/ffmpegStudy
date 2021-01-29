@@ -10,7 +10,6 @@
 #define IDD_DIALOG_FFMPEGSDL_FFPLAY     133
 #define IDD_DIALOG_PARSEFLV             134
 #define IDD_DIALOG_YUVSHOW              135
-#define IDD_DIALOG_YUVSHOW1             136
 #define IDD_DIALOG_DECODESHOW           136
 #define IDC_BUTTON_PARSEH264            1000
 #define IDC_MFCEDITBROWSE               1001
@@ -26,7 +25,10 @@
 #define IDC_BUTTON_DECODESHOW           1006
 #define IDC_BUTTON_PLAY_AUDIO           1007
 #define IDC_BUTTON_SEEKPREV             1008
+#define IDC_BUTTON_YUVSHOW2             1008
+#define IDC_BUTTON_YUVSHOWAUDIO         1008
 #define IDC_BUTTON_STARTPAUSE           1009
+#define IDC_BUTTON_DECODESHOWAUDIO      1009
 #define IDC_BUTTON_SEEKNEXT             1010
 #define IDC_BUTTON_STOP                 1011
 #define IDC_BUTTON_FRAME                1012

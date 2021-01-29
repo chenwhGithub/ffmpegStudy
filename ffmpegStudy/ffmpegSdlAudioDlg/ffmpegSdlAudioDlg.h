@@ -23,4 +23,5 @@ protected:
 public:
     CMFCEditBrowseCtrl m_browse;
     afx_msg void OnClickedButtonPlayAudio();
+    int decodeAudioToPcm(const char* inFileName, const char* outFileName);
 };

@@ -212,11 +212,11 @@ static UINT threadFuncPlay(LPVOID lpParam)
 
             // 解码一帧压缩数据
             ret = avcodec_send_packet(pCodecCtx, packet);
-            gotPicture = avcodec_receive_frame(pCodecCtx, pFrame);
             if (ret < 0) {
                 AfxMessageBox(_T("Could not decode."));
                 return 1;
             }
+            gotPicture = avcodec_receive_frame(pCodecCtx, pFrame);
             if (!gotPicture) {
 #if OUTPUT_YUV420P
                 fwrite(pFrame->data[0], 1, frameSize, fp_yuv);     // Y
