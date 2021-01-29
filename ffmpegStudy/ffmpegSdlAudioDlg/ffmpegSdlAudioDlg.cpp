@@ -25,7 +25,6 @@ extern "C" {
 static Uint8 *audio_chunk;      // 一帧音频采样数据缓存区
 static Uint32 audio_len;        // 采样数据缓存区剩余未播放的长度
 static Uint8 *audio_pos;        // 采样数据缓存区当前播放的位置
-static int sampleRate, sampleBytes, channels, frameSize;
 
 // 音频设备需要更多数据的时候会调用该回调函数，应用程序被动推送数据到音频设备
 static void fill_audio(void *udata, Uint8 *stream, int len)
@@ -70,75 +69,36 @@ END_MESSAGE_MAP()
 // CffmpegSdlAudioDlg message handlers
 static UINT threadFuncPlay(LPVOID lpParam)
 {
-    int bufferSize = frameSize * channels * sampleBytes; // 一帧 pcm 数据缓冲区大小：采样点个数 * 通道个数 * 每个采样值字节数(float)
-    unsigned char *buffer = new unsigned char[bufferSize];;
+    CffmpegSdlAudioDlg *dlg = (CffmpegSdlAudioDlg *)lpParam;
 
-    if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
-        AfxMessageBox(_T("Couldn't initialize SDL."));
-        return 1;
-    }
-
-    //SDL_AudioSpec
-    SDL_AudioSpec wanted_spec;
-    wanted_spec.freq = sampleRate;
-    wanted_spec.format = AUDIO_F32SYS;
-    wanted_spec.channels = channels;
-    wanted_spec.silence = 0;
-    wanted_spec.samples = frameSize;
-    wanted_spec.callback = fill_audio;
-
-    if (SDL_OpenAudio(&wanted_spec, NULL) < 0) {
-        AfxMessageBox(_T("Couldn't open audio."));
-        return 1;
-    }
-
-    FILE *fp = fopen(OUTPUT_PCM_FILENAME, "rb");
-    if (fp == NULL) {
-        AfxMessageBox(_T("Couldn't open file."));
-        return 1;
-    }
-
-    SDL_PauseAudio(0);
-
-    while (!feof(fp)) {
-        if (fread(buffer, 1, bufferSize, fp) != bufferSize) {
-            break;
-        }
-
-        audio_chunk = (Uint8 *)buffer;
-        audio_len = bufferSize;
-        audio_pos = audio_chunk;
-
-        while (audio_len > 0) // 等待上次解码后的音频播放完毕，然后再解码下一帧
-            SDL_Delay(1);
-    }
-
-    delete[] buffer;
-    SDL_Quit();
-
-    return 0;
-}
-
-
-int CffmpegSdlAudioDlg::decodeAudioToPcm(const char* inFileName, const char* outFileName)
-{
     AVFormatContext *pFormatCtx;    // 封装相关上下文结构体，也是统领全局的结构体，保存了文件封装格式相关信息
     AVCodecContext *pCodecCtx;      // 编码相关上下文结构体，保存了文件编解码相关信息
     AVCodec *pCodec;                // 文件具体编码方式对应的那一种编解码器结构体
     AVFrame *pFrame;                // 存储解码后的一帧数据
     AVPacket *packet;               // 存储解码前的一帧数据
 
-    unsigned int i, j;
-    int audioIndex, ret, gotPicture;
+    unsigned int i, j, k;
+    int audioIndex, ret, gotPicture, sampleRate, sampleBytes, channels, frameSize, bufferSize;
+    unsigned char *buffer;
 
-    FILE* fpOut = fopen(outFileName, "wb");
+    CString strInFileName;
+    char * chInFileName;
+    // 输入 flv, mp4, mp3, aac 等带音频的文件，进行 解封装->解码->pcm->播放 https://blog.csdn.net/leixiaohua1020/article/details/38979615
+    dlg->m_browse.GetWindowTextW(strInFileName);
+    if (strInFileName.IsEmpty()) {
+        return 1;
+    }
+    USES_CONVERSION;
+    chInFileName = W2A(strInFileName);
+
+    FILE* fpOut = fopen(OUTPUT_PCM_FILENAME, "wb");
 
     // 网络组件初始化
     avformat_network_init();
 
     // 打开输入的音视频文件，填充封装相关上下文结构体 pFormatCtx
     pFormatCtx = avformat_alloc_context();
-    if (avformat_open_input(&pFormatCtx, inFileName, NULL, NULL) != 0) {
+    if (avformat_open_input(&pFormatCtx, chInFileName, NULL, NULL) != 0) {
         AfxMessageBox(_T("Couldn't open input stream."));
         return 1;
     }
@@ -188,6 +148,29 @@ int CffmpegSdlAudioDlg::decodeAudioToPcm(const char* inFileName, const char* out
     channels = pCodecCtx->channels;
     frameSize = pCodecCtx->frame_size;
     sampleRate = pCodecCtx->sample_rate;
+    bufferSize = frameSize * channels * sampleBytes; // 一帧 pcm 数据缓冲区大小：采样点个数 * 通道个数 * 每个采样值字节数(float)
+    buffer = new unsigned char[bufferSize];
+
+    if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
+        AfxMessageBox(_T("Couldn't initialize SDL."));
+        return 1;
+    }
+
+    //SDL_AudioSpec
+    SDL_AudioSpec wanted_spec;
+    wanted_spec.freq = sampleRate;
+    wanted_spec.format = AUDIO_F32SYS;  // 由 pCodecCtx->sample_fmt 转化而来
+    wanted_spec.channels = channels;
+    wanted_spec.silence = 0;
+    wanted_spec.samples = frameSize;
+    wanted_spec.callback = fill_audio;
+
+    if (SDL_OpenAudio(&wanted_spec, NULL) < 0) {
+        AfxMessageBox(_T("Couldn't open audio."));
+        return 1;
+    }
+
+    SDL_PauseAudio(0);
 
     while (av_read_frame(pFormatCtx, packet) == 0) // 0 for OK, < 0 for error or end of file
     {
@@ -201,20 +184,32 @@ int CffmpegSdlAudioDlg::decodeAudioToPcm(const char* inFileName, const char* out
             }
             gotPicture = avcodec_receive_frame(pCodecCtx, pFrame);
             if (!gotPicture) {
+                k = 0;
                 for (i = 0; i < frameSize; i++) {
                     for (j = 0; j < channels; j++) {
                         fwrite(pFrame->data[j] + sampleBytes * i, 1, sampleBytes, fpOut); // 左右通道采样值交替存储
+                        memcpy(buffer + sampleBytes * k, pFrame->data[j] + sampleBytes * i, sampleBytes); // 拷贝一帧解码数据到缓冲区
+                        k++;
                     }
                 }
+
+                audio_chunk = (Uint8 *)buffer;
+                audio_len = bufferSize;
+                audio_pos = audio_chunk;
+
+                while (audio_len > 0) // 等待上次解码后的音频播放完毕，然后再解码下一帧
+                    SDL_Delay(1);
             }
         }
     }
 
+    delete[] buffer;
     fclose(fpOut);
     av_frame_free(&pFrame);
     av_packet_free(&packet);
     avcodec_close(pCodecCtx);
     avformat_close_input(&pFormatCtx);
+    SDL_Quit();
 
     return 0;
 }
@@ -223,18 +218,5 @@ int CffmpegSdlAudioDlg::decodeAudioToPcm(const char* inFileName, const char* out
 void CffmpegSdlAudioDlg::OnClickedButtonPlayAudio()
 {
     // TODO: Add your control notification handler code here
-    CString strInFileName;
-    char * chInFileName;
-    // 输入 flv, mp4, mp3, aac 等带音频的文件，进行 解封装->解码->pcm->播放 https://blog.csdn.net/leixiaohua1020/article/details/46890259
-    m_browse.GetWindowTextW(strInFileName);
-    if (strInFileName.IsEmpty()) {
-        return;
-    }
-    USES_CONVERSION;
-    chInFileName = W2A(strInFileName);
-
-    int ret = decodeAudioToPcm(chInFileName, OUTPUT_PCM_FILENAME);
-    if (!ret) {
-        AfxBeginThread(threadFuncPlay, this);
-    }
+    AfxBeginThread(threadFuncPlay, this);
 }

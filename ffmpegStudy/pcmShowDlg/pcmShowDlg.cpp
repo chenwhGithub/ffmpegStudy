@@ -63,6 +63,9 @@ BOOL CPcmShowDlg::OnInitDialog()
     m_combo.InsertString(2, _T("S32"));
     m_combo.InsertString(3, _T("F32"));
 
+    SetDlgItemText(IDC_EDIT_SAMPLERATE, _T("44100"));
+    SetDlgItemText(IDC_EDIT_CHANNEL, _T("2"));
+
     m_combo.SetCurSel(3);
     return TRUE;  // return TRUE unless you set the focus to a control
                   // EXCEPTION: OCX Property Pages should return FALSE
@@ -76,7 +79,7 @@ static UINT threadFuncPlay(LPVOID lpParam)
 
     CString strInFileName;
     char * chInFileName;
-    // 输入 flv, mp4, mp3, aac 等带音频的文件，进行 解封装->解码->pcm->播放 https://blog.csdn.net/leixiaohua1020/article/details/46890259
+    // 输入 .pcm 解码后的原始音频文件，直接 SDL 播放 https://blog.csdn.net/leixiaohua1020/article/details/46890259
     dlg->m_browse.GetWindowTextW(strInFileName);
     if (strInFileName.IsEmpty()) {
         return 1;
@@ -174,4 +177,3 @@ void CPcmShowDlg::OnClickedButtonPlay()
     // TODO: Add your control notification handler code here
     AfxBeginThread(threadFuncPlay, this);
 }
-
