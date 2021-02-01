@@ -199,6 +199,7 @@
   <ItemGroup>
     <ClInclude Include="decodeShowAudioDlg\decodeShowAudioDlg.h" />
     <ClInclude Include="decodeShowVideoDlg\decodeShowVideoDlg.h" />
+    <ClInclude Include="encodeYuvToH264Dlg\encodeYuvToH264Dlg.h" />
     <ClInclude Include="ffmpegSdlAudioDlg\ffmpegSdlAudioDlg.h" />
     <ClInclude Include="ffmpegSdlVideoDlg\ffmpegSdlVideoDlg.h" />
     <ClInclude Include="ffplayDlg\ffplayDlg.h" />
@@ -429,6 +430,7 @@
   <ItemGroup>
     <ClCompile Include="decodeShowAudioDlg\decodeShowAudioDlg.cpp" />
     <ClCompile Include="decodeShowVideoDlg\decodeShowVideoDlg.cpp" />
+    <ClCompile Include="encodeYuvToH264Dlg\encodeYuvToH264Dlg.cpp" />
     <ClCompile Include="ffmpegSdlAudioDlg\ffmpegSdlAudioDlg.cpp" />
     <ClCompile Include="ffmpegSdlVideoDlg\ffmpegSdlVideoDlg.cpp" />
     <ClCompile Include="ffplayDlg\ffplayDlg.cpp" />

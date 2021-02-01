@@ -91,6 +91,9 @@
     <Filter Include="decodeShowAudioDlg">
       <UniqueIdentifier>{1b3fb43d-3055-43a5-b02a-c22ac7617a51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="encodeYuvToH264">
+      <UniqueIdentifier>{54b6d38f-7501-4a34-b22b-8f240a386cb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ffmpegStudy.h">
@@ -777,6 +780,9 @@
     <ClInclude Include="decodeShowAudioDlg\decodeShowAudioDlg.h">
       <Filter>decodeShowAudioDlg</Filter>
     </ClInclude>
+    <ClInclude Include="encodeYuvToH264Dlg\encodeYuvToH264Dlg.h">
+      <Filter>encodeYuvToH264</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ffmpegStudy.cpp">
@@ -820,6 +826,9 @@
     </ClCompile>
     <ClCompile Include="decodeShowAudioDlg\decodeShowAudioDlg.cpp">
       <Filter>decodeShowAudioDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="encodeYuvToH264Dlg\encodeYuvToH264Dlg.cpp">
+      <Filter>encodeYuvToH264</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

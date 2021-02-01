@@ -16,6 +16,7 @@
 #include "decodeShowVideoDlg/decodeShowVideoDlg.h"
 #include "pcmShowDlg/pcmShowDlg.h"
 #include "decodeShowAudioDlg/decodeShowAudioDlg.h"
+#include "encodeYuvToH264Dlg/encodeYuvToH264Dlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -50,6 +51,7 @@ BEGIN_MESSAGE_MAP(CffmpegStudyDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BUTTON_DECODESHOWVIDEO, &CffmpegStudyDlg::OnClickedButtonDecodeshowvideo)
     ON_BN_CLICKED(IDC_BUTTON_PCMSHOW, &CffmpegStudyDlg::OnClickedButtonPcmshow)
     ON_BN_CLICKED(IDC_BUTTON_DECODESHOWAUDIO, &CffmpegStudyDlg::OnClickedButtonDecodeshowaudio)
+    ON_BN_CLICKED(IDC_BUTTON_YUVTOH264, &CffmpegStudyDlg::OnClickedButtonYuvtoh264)
 END_MESSAGE_MAP()
 
 
@@ -185,5 +187,13 @@ void CffmpegStudyDlg::OnClickedButtonDecodeshowaudio()
 {
     // TODO: Add your control notification handler code here
     CDecodeShowAudioDlg dlg;
+    dlg.DoModal();
+}
+
+
+void CffmpegStudyDlg::OnClickedButtonYuvtoh264()
+{
+    // TODO: Add your control notification handler code here
+    CEncodeYuvToH264Dlg dlg;
     dlg.DoModal();
 }

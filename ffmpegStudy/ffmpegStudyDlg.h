@@ -41,4 +41,5 @@ public:
     afx_msg void OnClickedButtonDecodeshowvideo();
     afx_msg void OnClickedButtonPcmshow();
     afx_msg void OnClickedButtonDecodeshowaudio();
+    afx_msg void OnClickedButtonYuvtoh264();
 };
